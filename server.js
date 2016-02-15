@@ -90,7 +90,7 @@ app.post('/patientloginauth', function (request, response){
 
 
 
-/** Getting all patient in database**/
+/** Getting all patient in database (not used)**/
 app.get('/patientList', function(request, response){
    // console.log("Reciving request to send all patients information in database");
     patientsDb.patients.find(function (err, docs){
@@ -102,10 +102,10 @@ app.get('/patientList', function(request, response){
 
 /** Get all patients based on clinicians **/
 app.get('/patientList/:clinician', function(request, response){
-    console.log("Recieving request for patients to a clinicians");
     var clinician = request.params.clinician;
-    console.log(clinician);
-    patientsDb.patients.find({},{gp:clinician},{limit: 500},function (err, docs){
+    console.log("Recieveing request for patients assigned to " + clinician);
+    //modify later to get patients of the signed in clinicians...only takes in the full name
+    patientsDb.patients.find({gp:clinician},function (err, docs){
         console.log(docs);
         response.send(docs);
     });

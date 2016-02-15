@@ -82,7 +82,7 @@
 <!-- Body-->
 <div class="container">
     <div class="row">
-        <div class="col-md-6" ng-controller="allPatientLoad">
+        <div class="col-md-6" ng-controller="allSpecPatient">
 
             <div class="well well-lg">
                 <div class = "input-group" style = "margin-bottom:10px">
@@ -120,41 +120,8 @@
 
             <center>
 
-                <button class="btn btn-primary" ng-click="loadAAllPat()">Patient Directory</button>
+                <button class="btn btn-primary" ng-click="loadSpecPat(search)">Patient Directory</button>
             </center>
-        </div>
-
-        <div class="col-md-6">
-            <div class="well well-lg">
-            <div class = "input-group" style = "margin-bottom:10px">
-                <label class = "label label-primary" style = "font-size:15pt">Search</label><input class = "form-control" type = "text" ng-model = "clinician" placeholder="Clinician">
-            </div>
-
-            <table class="table table-striped table-bordered" style = "overflow:auto; height:200px">
-                <thead>
-                <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>NHS Number</th>
-                    <th>Age</th>
-                    <th>Assigned Clinician</th>
-
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr ng-repeat="patient in patientList | filter:search">
-                    <td>{{patient.firstname}}</td>
-                    <td>{{patient.lastname}}</td>
-                    <td>{{patient.nhsnumber}}</td>
-                    <td>{{patient.age}}</td>
-                    <td>{{patient.gp}}</td>
-
-                </tr>
-                </tbody>
-            </table>
-            </div>
-            <center><button class="btn btn-primary" ng-click="loadSpecPat(patient.gp)">Assigned Patient Directory</button></center>
         </div>
     </div>
 </div>
