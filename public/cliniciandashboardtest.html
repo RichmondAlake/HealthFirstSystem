@@ -117,7 +117,7 @@
                             <button class="btn btn-danger" data-toggle="modal" data-target="#infoModal"
                                     ng-click="loadPatientInfo(patient._id)">View Info
                             </button>
-                            <button class="btn btn-success">Risk Calculations</button>
+                            <button class="btn btn-success" data-toggle="modal" data-target="#riskCalculatorModal" ng-click="loadPatientInfo(patient._id)">Risk Calculations</button>
 
                         </td>
 
@@ -160,6 +160,43 @@
 
                     </div>
                 </div>
+
+                <!-- Risk Calculator for individual patient -->
+                <div id="riskCalculatorModal" class="modal fade" role=dialog>
+                    <div class="modal-dialog" style = "width:100%; height:100%; padding:0;">
+                        <!--Modal Content-->
+                        <div class="modal-content" style = "height:100%; border-radius:0">
+
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title ">Risk Calculator</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <img src="img/profile-placeholder.jpg" style="float:left">
+                                    <h3>{{specPatientInfo.nhsnumber}}</h3>
+                                    <h3>{{specPatientInfo.firstname}}</h3>
+                                    <h3>{{specPatientInfo.lastname}}</h3>
+                                    <h3>{{specPatientInfo.age}}</h3>
+                                </div>
+                                <h2>Medical Information</h2>
+                                <label>Cholesterol: </label><h3>{{specPatientInfo.cholesterol}}</h3>
+                                <label>Blood Pressure(Diastolic): </label><h3>{{specPatientInfo.diastolicbp}}</h3>
+                                <label>Blood Pressure(Systolic): </label><h3>{{specPatientInfo.systolicbp}}</h3>
+                                <label>Gender: </label><h3>{{specPatientInfo.gender}}</h3>
+                                <label>On Medication: </label><h3>{{specPatientInfo.medication}}</h3>
+                                <label>Smoker: </label><h3>{{specPatientInfo.smoker}}</h3>
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
 
 
             </div>

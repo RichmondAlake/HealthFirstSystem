@@ -1,8 +1,6 @@
 var myApp = angular.module('myApp', ['ngRoute']);
-var patientName;
-var patientAge;
-var patientBP;
-var patientChol;
+
+//setting views
 
 
 //Controller to load all database in the patients database (not used)
@@ -14,9 +12,7 @@ myApp.controller('allPatientLoad', function ($scope, $http){
         $http.get('/patientList').success(function (response){
             $scope.patientList = response;
         });
-
     };
-
 });
 
 
@@ -42,8 +38,6 @@ myApp.controller ('allSpecPatient', function($scope, $http){
             console.log(response);
         });
     }
-
-
 
 });
 
