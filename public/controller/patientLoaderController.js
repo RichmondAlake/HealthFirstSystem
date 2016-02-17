@@ -1,4 +1,8 @@
 var myApp = angular.module('myApp', ['ngRoute']);
+var patientName;
+var patientAge;
+var patientBP;
+var patientChol;
 
 
 //Controller to load all database in the patients database (not used)
@@ -25,6 +29,12 @@ myApp.controller ('allSpecPatient', function($scope, $http){
         console.log('sent request for patients assigned to' + clinician);
         $http.get('/patientList/' +clinician).success(function (response){
             $scope.patientList = response;
+
         });
     };
+
+
+
 });
+
+
