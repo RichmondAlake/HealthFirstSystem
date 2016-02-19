@@ -37,7 +37,51 @@ myApp.controller ('allSpecPatient', function($scope, $http){
             $scope.specPatientInfo = response;
             console.log(response);
         });
-    }
+    };
+
+
+    //calculate risk based on database records
+    $scope.calculateRiskBasedOnRecords = function(){
+        var age = document.getElementById('patientAge').value;
+        var pointsLDL = 0;
+
+        //section to categorise age and assign points based database records
+
+        if (age<=34){
+            pointsLDL = -9;
+            alert (pointsLDL);
+        }
+        else if(age<=39){
+            pointsLDL = -4;
+            alert(pointsLDL);
+        }
+        else if(age<=44){
+            pointsLDL = 0;
+            alert(pointsLDL);
+        }
+        else if(age<=49){
+            pointsLDL = 3;
+            alert(pointsLDL);
+        }
+        else if(age<=54){
+            pointsLDL = 6;
+            alert(pointsLDL);
+        }
+        else if(age<=59){
+            pointsLDL = 7;
+            alert(pointsLDL);
+        }
+        else if(age<=64){
+            pointsLDL = 8;
+            alert(pointsLDL);
+        }
+        else if(age<=74){
+            pointsLDL = 8;
+            alert(pointsLDL);
+        }
+
+
+    };
 
 });
 
