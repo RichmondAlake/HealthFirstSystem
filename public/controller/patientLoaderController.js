@@ -83,6 +83,13 @@ myApp.controller ('allSpecPatient', function($scope, $http){
 
     };
 
+    $scope.calculateRiskBasedOnEntry = function(){
+        //enable all input boxes to become accessible
+        //show a message in the browser that tells the users they can now edit the fields and entry
+        //change the text in the button to "Save records and calculate and the colour to blue"
+        //save all the entry to the database and modify the current records
+    }
+
 });
 
 
