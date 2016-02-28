@@ -45,7 +45,7 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
         var age = document.getElementById('patientAge').value;
         var chol = document.getElementById('patientChol').value;
         var dbp = document.getElementById('patientdiastolicbp').value;
-        var dbp = document.getElementById('patientsystolicbp').value;
+        var sbp = document.getElementById('patientsystolicbp').value;
         var gender = document.getElementById('patientGender').value;
         var medication = document.getElementById('patientMedication').value;
         var smoker = document.getElementById('patientSmoker').value;
@@ -113,9 +113,15 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
         }
 
 
+        /** need to send the calculated risk result back to the database **/
+
+        $scope.saveAllEntry();
     };
 
     $scope.calculateRiskBasedOnEntry = function () {
+        //enable save button
+        var saveButtonEntry = document.getElementById('saveEntryButton').disabled = false;
+
         //enable all input boxes to become accessible
         var age = document.getElementById('patientAge').readOnly = false;
         var chol = document.getElementById('patientChol').readOnly = false;
@@ -126,12 +132,84 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
         var smoker = document.getElementById('patientSmoker').readOnly = false;
 
 
-        //show a message in the browser that tells the users they can now edit the fields and entry
-        //change the text in the button to "Save records and calculate and the colour to blue"
-        //save all the entry to the database and modify the current records
-    }
+    };
 
-    scope.saveAllEntry = function(){
+    $scope.saveAllEntry = function(){
+
+        //get current time when the button is clicked
+        var currentFullTime = new Date();
+        //var currentYear = currentFullTime.getYear().toString();
+        var currentMonth = currentFullTime.getMonth();
+        //var currentDay = currentFullTime.getDay();
+
+        //setting months association with number returned from function
+        if (currentMonth == 0){
+            currentMonth = 'January';
+        }
+        else if (currentMonth == 1){
+            currentMonth = 'February'
+        }
+        else if (currentMonth == 2){
+            currentMonth = 'March'
+        }
+        else if (currentMonth == 3){
+            currentMonth = 'April'
+        }
+        else if (currentMonth == 4){
+            currentMonth = 'May'
+        }
+        else if (currentMonth == 5){
+            currentMonth = 'June'
+        }
+        else if (currentMonth == 6){
+            currentMonth = 'July'
+        }
+        else if (currentMonth == 7){
+            currentMonth = 'August'
+        }
+        else if (currentMonth == 8){
+            currentMonth = 'September'
+        }
+        else if (currentMonth == 9){
+            currentMonth = 'October'
+        }
+        else if (currentMonth == 10){
+            currentMonth = 'November'
+        }
+        else if (currentMonth == 11){
+            currentMonth = 'December'
+        }
+
+
+
+        //enable all input boxes to become accessible
+        var age = document.getElementById('patientAge').readOnly = true;
+        var chol = document.getElementById('patientChol').readOnly = true;
+        var dbp = document.getElementById('patientdiastolicbp').readOnly = true;
+        var dbp = document.getElementById('patientsystolicbp').readOnly = true;
+        var gender = document.getElementById('patientGender').readOnly = true;
+        var medication = document.getElementById('patientMedication').readOnly = true;
+        var smoker = document.getElementById('patientSmoker').readOnly = true;
+
+        $scope.specPatientInfo.age = document.getElementById('patientAge').value;
+        $scope.specPatientInfo.cholesterol = document.getElementById('patientChol').value;
+        $scope.specPatientInfo.diastolicbp= document.getElementById('patientdiastolicbp').value;
+        $scope.specPatientInfo.systolicbp = document.getElementById('patientsystolicbp').value;
+        $scope.specPatientInfo.gender = document.getElementById('patientGender').value;
+        $scope.specPatientInfo.medication = document.getElementById('patientMedication').value;
+        $scope.specPatientInfo.smoker = document.getElementById('patientSmoker').value;
+
+
+        //adding currentFullTime and CurrentMonth into the specPatientInfo object
+        $scope.specPatientInfo.currentFullTime = currentFullTime;
+        $scope.specPatientInfo.currentMonth = currentMonth;
+
+
+        $http.put('/patientLists/' + $scope.specPatientInfo._id, $scope.specPatientInfo).success( function (request, response){
+
+            console.log(response);
+
+        });
 
     }
 

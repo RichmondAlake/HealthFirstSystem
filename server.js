@@ -127,5 +127,44 @@ app.get('/patientLists/:id', function (request, response) {
     });
 });
 
+
+
+/**Updating records in database based on entry **/
+app.put('/patientLists/:id', function (request, response){
+    var id = request.params.id;
+    var currentMonth = request.body.currentMonth;
+    var currentFullTime = request.body.currentFullTime;
+    console.log(currentMonth);
+    console.log(currentFullTime);
+    patientsDb.patients.findAndModify({query : {_id:mongojs.ObjectId(id)},
+//need to test
+    update:
+    {
+        $set:
+    {
+        age : request.body.age,
+        cholesterol : request.body.cholesterol,
+        diastolicbp : request.body.diastolicbp,
+        systolicbp: request.body.systolicbp,
+        gender : request.body.gender,
+        medication : request.body.medication,
+        smoker : request.body.smoker},
+        $addToSet :
+        {
+            "riskstoreddata" :
+            {
+                calculatedrisk : "4",
+                currentFullTime : currentFullTime,
+                currentMonth : currentMonth
+            }
+        }
+
+
+    },
+        new : true}, function (doc, err){
+        response.send(doc);
+    });
+});
+
 app.listen(3000);
 console.log("server currently running");
