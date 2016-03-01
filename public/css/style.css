@@ -3,3 +3,22 @@ body{
     padding: 0px;
     color:gray;
 }
+
+
+.ct-series-a .ct-line {
+    /* Set the colour of this series line */
+    stroke: blue;
+    /* Control the thikness of your lines */
+    stroke-width: 7px;
+    /* Create a dashed line with a pattern */
+    /**stroke-dasharray: 10px 20px;**/
+}
+
+.ct-series-a .ct-point {
+    /* Colour of your points */
+    stroke: red;
+    /* Size of your points */
+    stroke-width: 20px;
+    /* Make your points appear as squares */
+    stroke-linecap: square;
+}

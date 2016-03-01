@@ -20,6 +20,9 @@
             crossorigin="anonymous"></script>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
+    <!-- Chartist-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+
 
 </head>
 <body>
@@ -197,56 +200,84 @@
                                         <!-- AGE-->
                                         <div class="input-group">
                                             <span class="input-group-addon" id="patientAgeArea">Age</span>
-                                            <input id = "patientAge"type="number" class="form-control" readonly="readonly" aria-describedby="patientAge" value = {{specPatientInfo.age}} >
+                                            <input id="patientAge" type="number" class="form-control"
+                                                   readonly="readonly" aria-describedby="patientAge"
+                                                   value={{specPatientInfo.age}}>
                                         </div>
 
                                         <!-- CHLOESTEROL-->
                                         <div class="input-group">
                                             <span class="input-group-addon" id="patientCholArea">Cholesterol</span>
-                                            <input id = "patientChol" type="number" class="form-control" readonly="readonly" aria-describedby="patientChol" value = {{specPatientInfo.cholesterol}} >
+                                            <input id="patientChol" type="number" class="form-control"
+                                                   readonly="readonly" aria-describedby="patientChol"
+                                                   value={{specPatientInfo.cholesterol}}>
                                         </div>
 
                                         <!-- DIASTOLIC BLOOD PRESSURE-->
                                         <div class="input-group">
-                                            <span class="input-group-addon" id="patientdiastolicbpArea">Diastolic BP</span>
-                                            <input id = "patientdiastolicbp"type="number" class="form-control" readonly="readonly" aria-describedby="patientdiastolicbp" value = {{specPatientInfo.diastolicbp}} >
+                                            <span class="input-group-addon"
+                                                  id="patientdiastolicbpArea">Diastolic BP</span>
+                                            <input id="patientdiastolicbp" type="number" class="form-control"
+                                                   readonly="readonly" aria-describedby="patientdiastolicbp"
+                                                   value={{specPatientInfo.diastolicbp}}>
                                         </div>
 
                                         <!-- SYSTOLIC BLOOD PRESSURE-->
                                         <div class="input-group">
-                                            <span class="input-group-addon" id="patientsystolicbpArea">Systolic BP</span>
-                                            <input id = "patientsystolicbp" type="number" class="form-control" readonly="readonly" aria-describedby="patientsystolicbp" value = {{specPatientInfo.systolicbp}} >
+                                            <span class="input-group-addon"
+                                                  id="patientsystolicbpArea">Systolic BP</span>
+                                            <input id="patientsystolicbp" type="number" class="form-control"
+                                                   readonly="readonly" aria-describedby="patientsystolicbp"
+                                                   value={{specPatientInfo.systolicbp}}>
                                         </div>
 
                                         <!-- GENDER-->
                                         <div class="input-group">
                                             <span class="input-group-addon" id="patientGenderArea">Gender</span>
-                                            <input id = "patientGender" type="text" class="form-control" readonly="readonly" aria-describedby="patientGenderArea" value = {{specPatientInfo.gender}} >
+                                            <input id="patientGender" type="text" class="form-control"
+                                                   readonly="readonly" aria-describedby="patientGenderArea"
+                                                   value={{specPatientInfo.gender}}>
                                         </div>
 
                                         <!-- MEDICATION-->
                                         <div class="input-group">
                                             <span class="input-group-addon" id="patientMedArea">Medication</span>
-                                            <input id = "patientMedication" type="text" class="form-control" readonly="readonly" aria-describedby="patientMedArea" value = {{specPatientInfo.medication}} >
+                                            <input id="patientMedication" type="text" class="form-control"
+                                                   readonly="readonly" aria-describedby="patientMedArea"
+                                                   value={{specPatientInfo.medication}}>
                                         </div>
 
                                         <!-- SMOKER-->
                                         <div class="input-group">
                                             <span class="input-group-addon" id="patientSmokerArea">Smoker</span>
-                                            <input id = "patientSmoker" type="text" class="form-control" readonly="readonly" aria-describedby="patientSmokerArea" value = {{specPatientInfo.smoker}} >
+                                            <input id="patientSmoker" type="text" class="form-control"
+                                                   readonly="readonly" aria-describedby="patientSmokerArea"
+                                                   value={{specPatientInfo.smoker}}>
                                         </div>
 
 
-                                        <button class = "btn btn-danger" ng-click="calculateRiskBasedOnRecords()">Calculate Risk based on Records</button>
-                                        <button class = "btn btn-danger" ng-click = "calculateRiskBasedOnEntry()">Calculate Risk based on Entry</button>
-                                        <button id = "saveEntryButton"class = "btn btn-success" ng-click = "saveAllEntry()" disabled>Save Entry</button>
+                                        <button class="btn btn-danger" ng-click="calculateRiskBasedOnRecords()">
+                                            Calculate Risk based on Records
+                                        </button>
+                                        <button class="btn btn-danger" ng-click="calculateRiskBasedOnEntry()">Calculate
+                                            Risk based on Entry
+                                        </button>
+                                        <button id="saveEntryButton" class="btn btn-success" ng-click="saveAllEntry()"
+                                                disabled>Save Entry
+                                        </button>
                                     </div>
                                 </div>
 
                                 <!-- Chart Section -->
 
-                                    <canvas id="myChart" width="400" height="400"></canvas>
-
+                                <div class="row" style="margin-top:100px">
+                                    <center>
+                                        <center>
+                                            <button class="btn btn-primary" ng-click="loadGraph()">Load Graph</button>
+                                        </center>
+                                        <div class="ct-chart ct-perfect-fourth test ct-labels"></div>
+                                    </center>
+                                </div>
 
 
                             </div>
@@ -266,17 +297,20 @@
             <center>
 
                 <button class="btn btn-primary" ng-click="loadSpecPat(search)">Patient Directory</button>
+
+
             </center>
         </div>
 
         <div class="col=md-6">
+
 
         </div>
 
 
     </div>
 
-    <canvas id="myChart1" width="400" height="400"></canvas>
+
 </div>
 
 <!-- Footer-->
@@ -285,10 +319,12 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.2/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
 <!--<script src = "controller/loginController.js"></script> -->
+
+
+<!-- Chartist-->
+<script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+<!--<script src = "js/chart.js"></script>-->
 <script src="controller/patientLoaderController.js"></script>
-<!-- Chart.js --->
-<script src = "http://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
-<!--<script src = "js/http_cdnjs.cloudflare.com_ajax_libs_Chart.js_1.0.2_Chart.js"></script>-->
-<script src = "js/chart.js"></script>
+
 </body>
 </html>

@@ -50,6 +50,8 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
         var medication = document.getElementById('patientMedication').value;
         var smoker = document.getElementById('patientSmoker').value;
 
+
+
         var pointsLDL = 0; //firstly initialised here
 
 
@@ -211,6 +213,39 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
 
         });
 
+    };
+
+    //creating function for loading current graph data
+    $scope.loadGraph = function(){
+        //array to store values to plot on graph
+        var yearLabels = [];
+        var CVDRisks = [];
+
+        //assign length of array that store CVD risk values to variable
+        var CVDRiskValueArrayLength = $scope.specPatientInfo.riskstoreddata.length;
+
+        //for loop to loop through object in array and push results onto assigned arrays
+        for(var i = 0; i < CVDRiskValueArrayLength; i++ ){
+            yearLabels.push($scope.specPatientInfo.riskstoreddata[i].currentMonth);
+            CVDRisks.push($scope.specPatientInfo.riskstoreddata[i].calculatedrisk);
+        }
+
+
+
+        var data = {
+            labels : yearLabels, //months
+            series: [CVDRisks] // CVD results
+        };
+
+        var options = {
+            width: 1500,
+            height: 500,
+            axisY : {
+                onlyInteger : true
+            }
+        };
+
+        new Chartist.Line('.ct-chart',data, options);
     }
 
 });
