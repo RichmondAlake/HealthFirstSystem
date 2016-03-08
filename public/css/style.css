@@ -22,3 +22,10 @@ body{
     /* Make your points appear as squares */
     stroke-linecap: square;
 }
+
+table {
+    display: block;
+    height: 350px;
+    width:600px;
+    overflow-y: scroll;
+}

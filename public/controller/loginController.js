@@ -26,10 +26,15 @@ myApp.controller('ClinicianLogin', function ($scope, $http){
         var details = {nhsnumber : $scope.clinicianNumber, password : $scope.clinicianPass };
         console.log(details);
         $http.post('/clinicianloginauth', details).success(function(response){
-            console.log(response);
+            //console.log(response);
             //need to display the response file on the page
-            document.write(response);
-            document.close();
+            if (response){
+                //window.location.href = "/public/cliniciandashboardtest.html";
+                document.write(response);
+                document.close();
+            }else{
+                //do nothing
+            }
         });
     }
 

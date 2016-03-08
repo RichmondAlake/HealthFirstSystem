@@ -1,4 +1,12 @@
+//load angular beforehand
+//document.write('<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.2/angular.min.js"></script>');
+//document.write('<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>');
+
+
+
+//loading neccesary functions on page load
 var myApp = angular.module('myApp', ['ngRoute']);
+
 
 //setting views
 
@@ -21,8 +29,10 @@ myApp.controller('allPatientLoad', function ($scope, $http) {
 myApp.controller('allSpecPatient', function ($scope, $http) {
 
     //load patients assigned to clinicians onclick
-    $scope.loadSpecPat = function (clinician) {
-        alert(clinician);
+
+    window.onload = $scope.loadSpecPat = function (clinician) {
+        clinician = " "; //clinicians is always empty space, comment this line to make it search box name
+        //alert(clinician);
         console.log('sent request for patients assigned to' + clinician);
         $http.get('/patientList/' + clinician).success(function (response) {
             $scope.patientList = response;
@@ -217,6 +227,7 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
 
     //creating function for loading current graph data
     $scope.loadGraph = function(){
+
         //array to store values to plot on graph
         var yearLabels = [];
         var CVDRisks = [];
@@ -238,16 +249,27 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
         };
 
         var options = {
-            width: 1500,
+            width: 700,
             height: 500,
+            high:100,
+            low: 0,
             axisY : {
-                onlyInteger : true
+                onlyInteger : true,
+                labelInterpolationFnc: function(value) {return value + '%';}
             }
         };
 
         new Chartist.Line('.ct-chart',data, options);
-    }
 
+    };
+    //window.onload = $scope.loadSpecPat;
 });
 
+//window.onload = $scope.loadSpecPat;
+function refresh(){
+    window.location.reload();
+}
 
+$('#riskCalculatorModal').on('hidden.bs.modal', function () {
+    window.location.reload();
+});

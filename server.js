@@ -41,7 +41,7 @@ app.post('/clinicianloginauth', function (request, response) {
 
         try {
             if (doc.nhsnumber == request.body.nhsnumber && doc.password == request.body.password) {
-                response.sendFile(path.join(__dirname + '/views/cliniciansdashboard.html'));
+                response.sendFile(path.join(__dirname + '/public/cliniciandashboardtest.html'));
 
             }
             else if (doc.nhsnumber == null || doc.password == null) {

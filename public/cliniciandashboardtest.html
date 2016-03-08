@@ -23,6 +23,11 @@
     <!-- Chartist-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
 
+    <style>
+        .ct-label {
+            font-size: 1.5rem;
+        }
+    </style>
 
 </head>
 <body>
@@ -89,210 +94,215 @@
 <div class="container">
     <div class="row" ng-controller="allSpecPatient">
         <div class="col-md-6">
+            <div class="input-group" style="margin-bottom:10px">
+                <label class="label label-primary" style="font-size:15pt">Search</label><input class="form-control"
+                                                                                               type="text"
+                                                                                               ng-model="search"
+                                                                                               placeholder="Clinician Name">
+            </div>
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>NHS Number</th>
+                    <th>Age</th>
+                    <th>Assigned Clinician</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="patient in patientList | filter:search">
+                    <td>{{patient.firstname}}</td>
+                    <td>{{patient.lastname}}</td>
+                    <td>{{patient.nhsnumber}}</td>
+                    <td>{{patient.age}}</td>
+                    <td>{{patient.gp}}</td>
+                    <td>
+                        <button class="btn btn-danger" data-toggle="modal" data-target="#infoModal"
+                                ng-click="loadPatientInfo(patient._id)">View Info
+                        </button>
+                        <button class="btn btn-success" data-toggle="modal" data-target="#riskCalculatorModal"
+                                ng-click="loadPatientInfo(patient._id)">Risk Calculations
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
-            <div class="well well-lg">
-                <div class="input-group" style="margin-bottom:10px">
-                    <label class="label label-primary" style="font-size:15pt">Search</label><input class="form-control"
-                                                                                                   type="text"
-                                                                                                   ng-model="search"
-                                                                                                   placeholder="Clinician Name">
-                </div>
-                <table class="table table-striped table-bordered" style="overflow:auto; height:200px">
-                    <thead>
-                    <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>NHS Number</th>
-                        <th>Age</th>
-                        <th>Assigned Clinician</th>
-                        <th>Action</th>
+            <!-- View Info Modal-->
+            <div id="infoModal" class="modal fade" role=dialog>
+                <div class="modal-dialog">
+                    <!--Modal Content-->
+                    <div class="modal-content">
 
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    <tr ng-repeat="patient in patientList | filter:search">
-                        <td>{{patient.firstname}}</td>
-                        <td>{{patient.lastname}}</td>
-                        <td>{{patient.nhsnumber}}</td>
-                        <td>{{patient.age}}</td>
-                        <td>{{patient.gp}}</td>
-                        <td>
-                            <button class="btn btn-danger" data-toggle="modal" data-target="#infoModal"
-                                    ng-click="loadPatientInfo(patient._id)">View Info
-                            </button>
-                            <button class="btn btn-success" data-toggle="modal" data-target="#riskCalculatorModal"
-                                    ng-click="loadPatientInfo(patient._id)">Risk Calculations
-                            </button>
-
-                        </td>
-
-                    </tr>
-                    </tbody>
-                </table>
-
-                <!-- View Info Modal-->
-                <div id="infoModal" class="modal fade" role=dialog>
-                    <div class="modal-dialog">
-                        <!--Modal Content-->
-                        <div class="modal-content">
-
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title ">View Info of Patient (patient name)</h4>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <img src="img/profile-placeholder.jpg" style="float:left">
-                                    <h3>{{specPatientInfo.nhsnumber}}</h3>
-                                    <h3>{{specPatientInfo.firstname}}</h3>
-                                    <h3>{{specPatientInfo.lastname}}</h3>
-                                    <h3>{{specPatientInfo.age}}</h3>
-                                </div>
-                                <h2>Medical Information</h2>
-                                <label>Cholesterol: </label>
-                                <h3>{{specPatientInfo.cholesterol}}</h3>
-                                <label>Blood Pressure(Diastolic): </label>
-                                <h3>{{specPatientInfo.diastolicbp}}</h3>
-                                <label>Blood Pressure(Systolic): </label>
-                                <h3>{{specPatientInfo.systolicbp}}</h3>
-                                <label>Gender: </label>
-                                <h3>{{specPatientInfo.gender}}</h3>
-                                <label>On Medication: </label>
-                                <h3>{{specPatientInfo.medication}}</h3>
-                                <label>Smoker: </label>
-                                <h3>{{specPatientInfo.smoker}}</h3>
-
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title ">View Info of Patient (patient name)</h4>
                         </div>
-
-                    </div>
-                </div>
-
-                <!-- Risk Calculator for individual patient -->
-                <div id="riskCalculatorModal" class="modal fade" role=dialog>
-                    <div class="modal-dialog" style="width:100%; height:100%; padding:0;">
-                        <!--Modal Content-->
-                        <div class="modal-content" style="height:100%; border-radius:0">
-
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title ">Risk Calculator</h4>
+                        <div class="modal-body">
+                            <div class="row">
+                                <img src="img/profile-placeholder.jpg" style="float:left">
+                                <h3>{{specPatientInfo.nhsnumber}}</h3>
+                                <h3>{{specPatientInfo.firstname}}</h3>
+                                <h3>{{specPatientInfo.lastname}}</h3>
+                                <h3>{{specPatientInfo.age}}</h3>
                             </div>
-                            <!-- Not 100% -->
+                            <h2>Medical Information</h2>
+                            <label>Cholesterol: </label>
+                            <h3>{{specPatientInfo.cholesterol}}</h3>
+                            <label>Blood Pressure(Diastolic): </label>
+                            <h3>{{specPatientInfo.diastolicbp}}</h3>
+                            <label>Blood Pressure(Systolic): </label>
+                            <h3>{{specPatientInfo.systolicbp}}</h3>
+                            <label>Gender: </label>
+                            <h3>{{specPatientInfo.gender}}</h3>
+                            <label>On Medication: </label>
+                            <h3>{{specPatientInfo.medication}}</h3>
+                            <label>Smoker: </label>
+                            <h3>{{specPatientInfo.smoker}}</h3>
 
 
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <img src="img/profile-placeholder.jpg" style="float:left">
-                                        <h3>{{specPatientInfo.nhsnumber}}</h3>
-                                        <h3>{{specPatientInfo.firstname}}</h3>
-                                        <h3>{{specPatientInfo.lastname}}</h3>
-                                        <h3>{{specPatientInfo.age}}</h3>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Risk Calculator for individual patient Modal -->
+            <div id="riskCalculatorModal" class="modal fade" role=dialog>
+                <div class="modal-dialog" style="width:100%; height:200%; padding:0;">
+                    <!--Modal Content-->
+                    <div class="modal-content" style="border-radius:0">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title ">Risk Calculator for Patient {{specPatientInfo.firstname}}
+                                {{specPatientInfo.lastname}}</h4>
+                        </div>
+                        <!-- Not 100% -->
+
+
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6" style="margin-left:200px; margin-top:50px">
+                                    <img src="img/profile-placeholder.jpg" style="float:left">
+
+                                    <h3> {{specPatientInfo.nhsnumber}}</h3>
+                                    <h3> {{specPatientInfo.firstname}}</h3>
+                                    <h3> {{specPatientInfo.lastname}}</h3>
+                                    <h3> {{specPatientInfo.age}}</h3>
+
+                                </div>
+                                <div class="col-md-6" style="margin-left:-300px">
+                                    <h2>{{specPatientInfo.firstname}}'s Medical Information</h2>
+                                    <!-- AGE-->
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="patientAgeArea">Age</span>
+                                        <input id="patientAge" type="number" class="form-control"
+                                               readonly="readonly" aria-describedby="patientAge"
+                                               value={{specPatientInfo.age}}>
                                     </div>
-                                    <div class="col-md-6">
-                                        <h2>Risk Calculator</h2>
-                                        <!-- AGE-->
-                                        <div class="input-group">
-                                            <span class="input-group-addon" id="patientAgeArea">Age</span>
-                                            <input id="patientAge" type="number" class="form-control"
-                                                   readonly="readonly" aria-describedby="patientAge"
-                                                   value={{specPatientInfo.age}}>
-                                        </div>
 
-                                        <!-- CHLOESTEROL-->
-                                        <div class="input-group">
-                                            <span class="input-group-addon" id="patientCholArea">Cholesterol</span>
-                                            <input id="patientChol" type="number" class="form-control"
-                                                   readonly="readonly" aria-describedby="patientChol"
-                                                   value={{specPatientInfo.cholesterol}}>
-                                        </div>
+                                    <!-- CHLOESTEROL-->
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="patientCholArea">Cholesterol</span>
+                                        <input id="patientChol" type="number" class="form-control"
+                                               readonly="readonly" aria-describedby="patientChol"
+                                               value={{specPatientInfo.cholesterol}}>
+                                    </div>
 
-                                        <!-- DIASTOLIC BLOOD PRESSURE-->
-                                        <div class="input-group">
+                                    <!-- DIASTOLIC BLOOD PRESSURE-->
+                                    <div class="input-group">
                                             <span class="input-group-addon"
                                                   id="patientdiastolicbpArea">Diastolic BP</span>
-                                            <input id="patientdiastolicbp" type="number" class="form-control"
-                                                   readonly="readonly" aria-describedby="patientdiastolicbp"
-                                                   value={{specPatientInfo.diastolicbp}}>
-                                        </div>
+                                        <input id="patientdiastolicbp" type="number" class="form-control"
+                                               readonly="readonly" aria-describedby="patientdiastolicbp"
+                                               value={{specPatientInfo.diastolicbp}}>
+                                    </div>
 
-                                        <!-- SYSTOLIC BLOOD PRESSURE-->
-                                        <div class="input-group">
+                                    <!-- SYSTOLIC BLOOD PRESSURE-->
+                                    <div class="input-group">
                                             <span class="input-group-addon"
                                                   id="patientsystolicbpArea">Systolic BP</span>
-                                            <input id="patientsystolicbp" type="number" class="form-control"
-                                                   readonly="readonly" aria-describedby="patientsystolicbp"
-                                                   value={{specPatientInfo.systolicbp}}>
-                                        </div>
-
-                                        <!-- GENDER-->
-                                        <div class="input-group">
-                                            <span class="input-group-addon" id="patientGenderArea">Gender</span>
-                                            <input id="patientGender" type="text" class="form-control"
-                                                   readonly="readonly" aria-describedby="patientGenderArea"
-                                                   value={{specPatientInfo.gender}}>
-                                        </div>
-
-                                        <!-- MEDICATION-->
-                                        <div class="input-group">
-                                            <span class="input-group-addon" id="patientMedArea">Medication</span>
-                                            <input id="patientMedication" type="text" class="form-control"
-                                                   readonly="readonly" aria-describedby="patientMedArea"
-                                                   value={{specPatientInfo.medication}}>
-                                        </div>
-
-                                        <!-- SMOKER-->
-                                        <div class="input-group">
-                                            <span class="input-group-addon" id="patientSmokerArea">Smoker</span>
-                                            <input id="patientSmoker" type="text" class="form-control"
-                                                   readonly="readonly" aria-describedby="patientSmokerArea"
-                                                   value={{specPatientInfo.smoker}}>
-                                        </div>
-
-
-                                        <button class="btn btn-danger" ng-click="calculateRiskBasedOnRecords()">
-                                            Calculate Risk based on Records
-                                        </button>
-                                        <button class="btn btn-danger" ng-click="calculateRiskBasedOnEntry()">Calculate
-                                            Risk based on Entry
-                                        </button>
-                                        <button id="saveEntryButton" class="btn btn-success" ng-click="saveAllEntry()"
-                                                disabled>Save Entry
-                                        </button>
+                                        <input id="patientsystolicbp" type="number" class="form-control"
+                                               readonly="readonly" aria-describedby="patientsystolicbp"
+                                               value={{specPatientInfo.systolicbp}}>
                                     </div>
+
+                                    <!-- GENDER-->
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="patientGenderArea">Gender</span>
+                                        <input id="patientGender" type="text" class="form-control"
+                                               readonly="readonly" aria-describedby="patientGenderArea"
+                                               value={{specPatientInfo.gender}}>
+                                    </div>
+
+                                    <!-- MEDICATION-->
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="patientMedArea">Medication</span>
+                                        <input id="patientMedication" type="text" class="form-control"
+                                               readonly="readonly" aria-describedby="patientMedArea"
+                                               value={{specPatientInfo.medication}}>
+                                    </div>
+
+                                    <!-- SMOKER-->
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="patientSmokerArea">Smoker</span>
+                                        <input id="patientSmoker" type="text" class="form-control"
+                                               readonly="readonly" aria-describedby="patientSmokerArea"
+                                               value={{specPatientInfo.smoker}}>
+                                    </div>
+
+
+                                    <button class="btn btn-danger" ng-click="calculateRiskBasedOnRecords()">
+                                        Calculate Risk based on Records
+                                    </button>
+                                    <button class="btn btn-danger" ng-click="calculateRiskBasedOnEntry()">Calculate
+                                        Risk based on Entry
+                                    </button>
+                                    <button id="saveEntryButton" class="btn btn-success" ng-click="saveAllEntry()"
+                                            disabled>Save Entry
+                                    </button>
                                 </div>
+                            </div>
 
-                                <!-- Chart Section -->
 
-                                <div class="row" style="margin-top:100px">
+                        </div>
+
+
+                        <div class="modal-footer">
+
+                            <!-- Chart Section-->
+
+                            <div class="row" style="margin-top:20px">
+                                <center>
+                                    <button class="btn btn-primary" ng-click="loadGraph()">Load Graph</button>
+                                </center>
+                                <div class="col-md-6">
+                                    <div class="ct-chart ct-perfect-fourth test ct-labels"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <!-- Input boxes for clinician recommendations-->
                                     <center>
-                                        <center>
-                                            <button class="btn btn-primary" ng-click="loadGraph()">Load Graph</button>
-                                        </center>
-                                        <div class="ct-chart ct-perfect-fourth test ct-labels"></div>
+                                    <input class = "form-group" placeholder="Make recommendations" style = "width:300px; height:70px; margin-top:200px">
+                                    <button class ="btn btn-primary">Recommend</button>
                                     </center>
                                 </div>
 
-
                             </div>
 
 
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
+                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick = "refresh()">Close</button>
                         </div>
-
                     </div>
+
                 </div>
-
-
             </div>
+
 
             <center>
 
@@ -302,8 +312,9 @@
             </center>
         </div>
 
-        <div class="col=md-6">
+        <div class="col-md-6">
 
+            <iframe src="http://www.bbc.co.uk/news/health" width="500" height="350" style = "margin-top:70px;"></iframe>
 
         </div>
 
