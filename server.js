@@ -127,7 +127,30 @@ app.get('/patientLists/:id', function (request, response) {
     });
 });
 
+/** placing recommendation in the database **/
+app.put('/recommendation/:id', function (request, response){
+    var id = request.params.id;
+    console.log(id);
+    var recommendation = request.body.recommendation;
 
+    patientsDb.patients.findAndModify({query : {_id:mongojs.ObjectId(id)},
+//need to test
+        update:
+        {
+            $addToSet :
+            {
+                "recommendations" :
+                {
+                    recommendation : recommendation
+                }
+            }
+
+
+        },
+        new : true}, function (doc, err){
+        response.send(doc);
+    });
+});
 
 /**Updating records in database based on entry **/
 app.put('/patientLists/:id', function (request, response){

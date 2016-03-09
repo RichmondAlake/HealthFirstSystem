@@ -45,7 +45,9 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
         console.log(id);
         $http.get('/patientLists/' + id).success(function (response) {
             $scope.specPatientInfo = response;
+            //console.log($scope.specPatientInfo.recommendations);
             console.log(response);
+
         });
     };
 
@@ -225,6 +227,7 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
 
     };
 
+
     //creating function for loading current graph data
     $scope.loadGraph = function(){
 
@@ -263,7 +266,23 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
 
     };
     //window.onload = $scope.loadSpecPat;
+
+
+    //making recommendations, capturing recommendation and time recommendation is made??
+    $scope.Recommendation = function(){
+        //clear input box after recommendation
+        var recommendation = $scope.recommendation;
+        $scope.specPatientInfo.recommendation = recommendation;
+        console.log("sending recommendation to server " + $scope.specPatientInfo.recommendation);
+        $http.put('/recommendation/' + $scope.specPatientInfo._id, $scope.specPatientInfo).success( function (request, response){
+            console.log(response);
+        });
+
+    };
 });
+
+
+
 
 //window.onload = $scope.loadSpecPat;
 function refresh(){

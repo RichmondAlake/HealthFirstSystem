@@ -23,7 +23,7 @@ body{
     stroke-linecap: square;
 }
 
-table {
+.customtable {
     display: block;
     height: 350px;
     width:600px;

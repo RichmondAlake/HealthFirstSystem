@@ -100,7 +100,7 @@
                                                                                                ng-model="search"
                                                                                                placeholder="Clinician Name">
             </div>
-            <table class="table table-striped table-bordered">
+            <table class="table table-striped table-bordered customtable">
                 <thead>
                 <tr>
                     <th>First Name</th>
@@ -288,15 +288,50 @@
                                 <div class="col-md-6">
                                     <!-- Input boxes for clinician recommendations-->
                                     <center>
-                                    <input class = "form-group" placeholder="Make recommendations" style = "width:300px; height:70px; margin-top:200px">
-                                    <button class ="btn btn-primary">Recommend</button>
+                                        <textarea class="form-group" placeholder="Make recommendations"
+                                                  style="width:300px; height:70px;margin-top:50px"
+                                                  ng-model="recommendation"></textarea>
+                                        <br>
+                                        <button class="btn btn-primary" ng-click='Recommendation()'>Recommend</button>
+
+
+                                        <table class="table table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th>Recommendation</th>
+                                                <th>Clinician</th>
+                                                <th>Time</th>
+                                            </tr>
+
+                                            </thead>
+
+                                            <tbody>
+                                            <tr>
+                                                <td>{{specPatientInfo.recommendations[1].recommendation}}</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{specPatientInfo.recommendations[2].recommendation}}</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{specPatientInfo.recommendations[3].recommendation}}</td>
+                                                <td></td>
+                                            </tr>
+
+
+                                            </tbody>
+
+                                        </table>
                                     </center>
                                 </div>
 
                             </div>
 
 
-                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick = "refresh()">Close</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="refresh()">
+                                Close
+                            </button>
                         </div>
                     </div>
 
@@ -314,7 +349,7 @@
 
         <div class="col-md-6">
 
-            <iframe src="http://www.bbc.co.uk/news/health" width="500" height="350" style = "margin-top:70px;"></iframe>
+            <iframe src="http://www.bbc.co.uk/news/health" width="500" height="350" style="margin-top:70px;"></iframe>
 
         </div>
 
