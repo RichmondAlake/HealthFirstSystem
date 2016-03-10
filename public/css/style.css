@@ -29,3 +29,7 @@ body{
     width:600px;
     overflow-y: scroll;
 }
+
+.customText{
+    font-size: 12pt;
+}

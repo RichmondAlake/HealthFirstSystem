@@ -33,6 +33,44 @@ myApp.controller('patientDashboard', function ($scope, $http) {
             $scope.patientInfo = response;
         });
     };
+
+    //creating function for loading current graph data
+    $scope.loadGraphPatientDashBoard = function(){
+
+        //array to store values to plot on graph
+        var yearLabels = [];
+        var CVDRisks = [];
+
+        //assign length of array that store CVD risk values to variable
+        var CVDRiskValueArrayLength = $scope.patientInfo.riskstoreddata.length;
+
+        //for loop to loop through object in array and push results onto assigned arrays
+        for(var i = 0; i < CVDRiskValueArrayLength; i++ ){
+            yearLabels.push($scope.patientInfo.riskstoreddata[i].currentMonth);
+            CVDRisks.push($scope.patientInfo.riskstoreddata[i].calculatedrisk);
+        }
+
+
+
+        var data = {
+            labels : yearLabels, //months
+            series: [CVDRisks] // CVD results
+        };
+
+        var options = {
+            width: 700,
+            height: 500,
+            high:100,
+            low: 0,
+            axisY : {
+                onlyInteger : true,
+                labelInterpolationFnc: function(value) {return value + '%';}
+            }
+        };
+
+        new Chartist.Line('.ct-chart',data, options);
+
+    };
 });
 
 

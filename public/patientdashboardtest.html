@@ -34,8 +34,9 @@
 
 <!-- Main body -->
 
-<div class="row" style = "margin-top:50px">
-    <div class="col-md-6">
+<div class="row" style="margin-top:50px">
+    <div class="col-md-12">
+        <center>
             <div class="input-group" style="margin-bottom:10px">
                 <label class="label label-primary" style="font-size:15pt">Search</label><input class="form-control"
                                                                                                type="text"
@@ -43,15 +44,197 @@
                                                                                                placeholder="Patient nhsnumber">
 
             </div>
-        <button class = "btn btn-primary" ng-click = "SearchPatient(search)">Search</button>
+            <button class="btn btn-primary" ng-click="SearchPatient(search)">Search</button>
 
-        <h2>{{patientInfo.firstname}}</h2>
-        <h2>{{patientInfo.lastname}}</h2>
-        <h2>{{patientInfo.nhsnumber}}</h2>
+        </center>
+    </div>
+</div>
+
+<!-- Patient Info section -->
+<div class="row">
+    <div class="col-md-6">
+        <div style = "text-align: right">
+            <h1>Personal Information</h1>
+            <img src="img/profile-placeholder.jpg" style="float:left">
+
+            <h3 class="customText">Nhs Number : {{patientInfo.nhsnumber}}</h3>
+            <h3 class="customText">First Name : {{patientInfo.firstname}}</h3>
+            <h3 class="customText">Last Name : {{patientInfo.lastname}}</h3>
+            <h3 class="customText">Age : {{patientInfo.age}}</h3>
+            <h3 class="customText">Gender : {{patientInfo.gender}}</h3>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <h1>Medical Information</h1>
+        <h3 class="customText">Assigned Clinician : {{patientInfo.gp}}</h3>
+        <h3 class="customText">Cholesterol : {{patientInfo.cholesterol}}</h3>
+        <h3 class="customText">Diastolic Blood Pressure : {{patientInfo.diastolicbp}}</h3>
+        <h3 class="customText">Systolic Blood Pressure : {{patientInfo.systolicbp}}</h3>
+        <h3 class="customText">Smoker : {{patientInfo.smoker}}</h3>
+        <h3 class="customText">Medication : {{patientInfo.medication}}</h3>
 
     </div>
 </div>
 
+<div class="row" style = "margin-top:50px">
+    <div class="col-md-6">
+        <!-- Information on Latest CVD calculation -->
+        <center><h3>CVD Risk Result Table</h3></center>
+        <table class="table table-bordered" style = "margin-top:50px">
+            <thead>
+            <th>Time</th>
+            <th>CVD Point</th>
+            <th>CVD Point %</th>
+            <th>Comments and Recommendation</th>
+            </thead>
+
+            <tbody>
+            <tr ng-repeat="calculatedrisk in patientInfo.riskstoreddata">
+                <td>{{calculatedrisk.currentFullTime}}</td>
+                <td>{{calculatedrisk.calculatedrisk}}</td>
+                <td></td>
+                <td></td>
+
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+    <div class="col-md-6" ng-controller = "allSpecPatient">
+        <!-- graph-->
+        <center><h3>CVD Risk Result Graph</h3></center>
+        <center><button class="btn btn-primary" ng-click="loadGraphPatientDashBoard()">Load Graph</button></center>
+        <div class="ct-chart ct-perfect-fourth test ct-labels"></div>
+    </div>
+
+</div>
+
+<div class="row" style = "margin-bottom:100px; margin-top:50px">
+    <center>
+    <button class="btn btn-success" data-toggle = "modal" data-target = "#editInfoModal">Edit Personal Information</button>
+    <button class="btn btn-success" data-toggle = "modal" data-target = "#calculatorInfoModal">Use CVD Calculator</button>
+    <button class="btn btn-success" data-toggle = "modal" data-target = "#appointmentInfoModal">Book Appointment</button>
+    </center>
+
+
+</div>
+
+<!-- Patient Info Modal -->
+<div id = "editInfoModal" class = "modal fade" role = "dialog">
+    <div class = "modal-dialog">
+        <div class = "modal-content">
+            <div class = "modal-header">
+                <h3>Edit Personal Information</h3>
+            </div>
+            <div class = "modal-body">
+                <div class="row">
+
+                        <!-- First Name-->
+                        <div class="input-group">
+                            <span class="input-group-addon" id="patientFirstNameArea">First Name</span>
+                            <input id="patientFirstName" type="text" class="form-control"
+                                    aria-describedby="patientFirstNameArea"
+                                   value={{patientInfo.firstname}}>
+                        </div>
+
+                        <!-- Last Name-->
+                        <div class="input-group">
+                            <span class="input-group-addon" id="patientLastNameArea">Last Name</span>
+                            <input id="patientLastName" type="text" class="form-control"
+                                    aria-describedby="patientLastNameArea"
+                                   value={{patientInfo.lastname}}>
+                        </div>
+
+                    <!-- Age-->
+                    <div class="input-group">
+                        <span class="input-group-addon" id="patientAgeArea">Age</span>
+                        <input id="patientAge" type="text" class="form-control"
+                                aria-describedby="patientAgeArea"
+                               value={{patientInfo.age}}>
+                    </div>
+
+                    <!-- Address-->
+                    <div class="input-group">
+                        <span class="input-group-addon" id="patientAddressArea">Address</span>
+                        <input id="patientAddress" type="text" class="form-control"
+                               aria-describedby="patientAgeArea"
+                               value={{patientInfo.address}}>
+                    </div>
+
+                    <!-- Phone Number-->
+                    <div class="input-group">
+                        <span class="input-group-addon" id="patientPhoneArea">Phone Number</span>
+                        <input id="patientPhone" type="text" class="form-control"
+                               aria-describedby="patientPhoneArea"
+                               value={{patientInfo.phonenumber}}>
+                    </div>
+
+                    <!-- Email-->
+                    <div class="input-group">
+                        <span class="input-group-addon" id="patientEmailArea">Email</span>
+                        <input id="patientEmail" type="text" class="form-control"
+                               aria-describedby="patientEmailArea"
+                               value={{patientInfo.email}}>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class = "modal-footer">
+                <button class = "btn btn-success">Save Info</button> <!-- Should refresh the main page -->
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- Calculator Info Modal -->
+<div id = "calculatorInfoModal" class = "modal fade" role = "dialog">
+    <div class = "modal-dialog">
+        <div class = "modal-content">
+            <div class = "modal-header">
+                <h3>Cardiovascular Risk Calculator</h3>
+
+            </div>
+            <div class = "modal-body">
+
+            </div>
+            <div class = "modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<!-- Appointment Info Modal -->
+<div id = "appointmentInfoModal" class = "modal fade" role = "dialog">
+    <div class = "modal-dialog">
+        <div class = "modal-content">
+            <div class = "modal-header">
+                <h3>Book an appointment with {{patientInfo.gp}}</h3>
+            </div>
+            <div class = "modal-body">
+
+            </div>
+            <div class = "modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
 
 
 <!-- Footer-->
