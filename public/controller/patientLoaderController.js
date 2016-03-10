@@ -23,6 +23,18 @@ myApp.controller('allPatientLoad', function ($scope, $http) {
     };
 });
 
+//Controller to load all database in the patients database (not used)
+myApp.controller('patientDashboard', function ($scope, $http) {
+
+    //on click of button load all patient within the database
+    $scope.SearchPatient = function (nhsnumber) {
+        console.log('sending request for patient: ' + nhsnumber);
+        $http.get('/patient/' + nhsnumber).success(function (response) {
+            $scope.patientInfo = response;
+        });
+    };
+});
+
 
 //Controller to load assigned patients of searched Clinicians
 //modify later to get patients of the signed in clinicians...only takes in the full name
@@ -50,6 +62,7 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
 
         });
     };
+
 
 
     //calculate risk based on database records

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html ng-app="myApp" xmlns:margin-left="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Health First</title>
+    <!-- Jqueey cdn -->
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+          integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+            integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+            crossorigin="anonymous"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Chartist-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+
+    <style>
+        .ct-label {
+            font-size: 1.5rem;
+        }
+    </style>
+
+</head>
+<body class="container-fluid" ng-controller="patientDashboard">
+
+<!-- Main body -->
+
+<div class="row" style = "margin-top:50px">
+    <div class="col-md-6">
+            <div class="input-group" style="margin-bottom:10px">
+                <label class="label label-primary" style="font-size:15pt">Search</label><input class="form-control"
+                                                                                               type="text"
+                                                                                               ng-model="search"
+                                                                                               placeholder="Patient nhsnumber">
+
+            </div>
+        <button class = "btn btn-primary" ng-click = "SearchPatient(search)">Search</button>
+
+        <h2>{{patientInfo.firstname}}</h2>
+        <h2>{{patientInfo.lastname}}</h2>
+        <h2>{{patientInfo.nhsnumber}}</h2>
+
+    </div>
+</div>
+
+
+
+<!-- Footer-->
+
+<!--Angular CDN-->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.2/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+<!--<script src = "controller/loginController.js"></script> -->
+
+
+<!-- Chartist-->
+<script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+<!--<script src = "js/chart.js"></script>-->
+<script src="controller/patientLoaderController.js"></script>
+
+</body>
+</html>

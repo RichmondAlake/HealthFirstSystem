@@ -113,7 +113,19 @@ app.get('/patientList/:clinician', function (request, response) {
 
 });
 
-/** Getting info for a specific patient **/
+/** Getting info for a specifc patient based on search criteria (nhsnumber) **/
+app.get('/patient/:nhsnumber', function (request, response) {
+    var nhsnumber = parseInt(request.params.nhsnumber);
+    console.log("Getting information for " + nhsnumber);
+    patientsDb.patients.findOne( {nhsnumber : nhsnumber}, function (err, doc) {
+
+            console.log(doc);
+            response.send(doc);
+
+    });
+});
+
+/** Getting info for a specific patient based on ID**/
 app.get('/patientLists/:id', function (request, response) {
     var id = request.params.id;
     console.log("Getting information for " + id);
