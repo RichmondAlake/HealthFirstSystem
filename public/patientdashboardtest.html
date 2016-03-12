@@ -53,7 +53,7 @@
 <!-- Patient Info section -->
 <div class="row">
     <div class="col-md-6">
-        <div style = "text-align: right">
+        <div style="text-align: right">
             <h1>Personal Information</h1>
             <img src="img/profile-placeholder.jpg" style="float:left">
 
@@ -67,7 +67,8 @@
 
     <div class="col-md-6">
         <h1>Medical Information</h1>
-        <h3 class="customText">Assigned Clinician : {{patientInfo.gp}}</h3>
+        <h3 class="customText">Assigned Clinician : <a href = "#appointmentModal" data-toggle="modal" data-target="#appointmentModal"
+                                                       ng-click="BookAppointment(patientInfo.gp)">{{patientInfo.gp}}</a></h3>
         <h3 class="customText">Cholesterol : {{patientInfo.cholesterol}}</h3>
         <h3 class="customText">Diastolic Blood Pressure : {{patientInfo.diastolicbp}}</h3>
         <h3 class="customText">Systolic Blood Pressure : {{patientInfo.systolicbp}}</h3>
@@ -77,16 +78,16 @@
     </div>
 </div>
 
-<div class="row" style = "margin-top:50px">
+<div class="row" style="margin-top:50px">
     <div class="col-md-6">
         <!-- Information on Latest CVD calculation -->
         <center><h3>CVD Risk Result Table</h3></center>
-        <table class="table table-bordered" style = "margin-top:50px">
+        <table class="table table-bordered" style="margin-top:50px">
             <thead>
             <th>Time</th>
             <th>CVD Point</th>
             <th>CVD Point %</th>
-            <th>Comments and Recommendation</th>
+
             </thead>
 
             <tbody>
@@ -94,7 +95,7 @@
                 <td>{{calculatedrisk.currentFullTime}}</td>
                 <td>{{calculatedrisk.calculatedrisk}}</td>
                 <td></td>
-                <td></td>
+
 
             </tr>
             </tbody>
@@ -102,63 +103,72 @@
         </table>
     </div>
 
-    <div class="col-md-6" ng-controller = "allSpecPatient">
+    <div class="col-md-6" ng-controller="allSpecPatient">
         <!-- graph-->
         <center><h3>CVD Risk Result Graph</h3></center>
-        <center><button class="btn btn-primary" ng-click="loadGraphPatientDashBoard()">Load Graph</button></center>
+        <center>
+            <button class="btn btn-primary" ng-click="loadGraphPatientDashBoard()">Load Graph</button>
+        </center>
         <div class="ct-chart ct-perfect-fourth test ct-labels"></div>
     </div>
 
 </div>
 
-<div class="row" style = "margin-bottom:100px; margin-top:50px">
+
+<div class="row" style="margin-bottom:100px; margin-top:50px">
     <center>
-    <button class="btn btn-success" data-toggle = "modal" data-target = "#editInfoModal">Edit Personal Information</button>
-    <button class="btn btn-success" data-toggle = "modal" data-target = "#calculatorInfoModal">Use CVD Calculator</button>
-    <button class="btn btn-success" data-toggle = "modal" data-target = "#appointmentInfoModal">Book Appointment</button>
+        <button class="btn btn-success" data-toggle="modal" data-target="#editInfoModal">Edit Personal Information
+        </button>
+        <button class="btn btn-success" data-toggle="modal" data-target="#calculatorInfoModal">Use CVD Calculator
+        </button>
+        <button class="btn btn-success" data-toggle="modal" data-target="#recommendationModal">View Recommendations
+        </button>
+        <button class="btn btn-success" data-toggle="modal" data-target="#appointmentModal"
+                ng-click="BookAppointment(patientInfo.gp)">Book Appointment
+        </button>
     </center>
 
 
 </div>
 
 <!-- Patient Info Modal -->
-<div id = "editInfoModal" class = "modal fade" role = "dialog">
-    <div class = "modal-dialog">
-        <div class = "modal-content">
-            <div class = "modal-header">
+<div id="editInfoModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
                 <h3>Edit Personal Information</h3>
             </div>
-            <div class = "modal-body">
+            <div class="modal-body">
                 <div class="row">
 
-                        <!-- First Name-->
-                        <div class="input-group">
-                            <span class="input-group-addon" id="patientFirstNameArea">First Name</span>
-                            <input id="patientFirstName" type="text" class="form-control"
-                                    aria-describedby="patientFirstNameArea"
-                                   value={{patientInfo.firstname}}>
-                        </div>
+                    <!-- First Name-->
+                    <div class="input-group">
+                        <span class="input-group-addon" id="patientFirstNameArea">First Name</span>
+                        <input id="patientEntryFirstName" type="text" class="form-control"
+                               aria-describedby="patientFirstNameArea"
+                               value={{patientInfo.firstname}}>
+                    </div>
 
-                        <!-- Last Name-->
-                        <div class="input-group">
-                            <span class="input-group-addon" id="patientLastNameArea">Last Name</span>
-                            <input id="patientLastName" type="text" class="form-control"
-                                    aria-describedby="patientLastNameArea"
-                                   value={{patientInfo.lastname}}>
-                        </div>
+                    <!-- Last Name-->
+                    <div class="input-group">
+                        <span class="input-group-addon" id="patientLastNameArea">Last Name</span>
+                        <input id="patientEntryLastName" type="text" class="form-control"
+                               aria-describedby="patientLastNameArea"
+                               value={{patientInfo.lastname}}>
+                    </div>
 
                     <!-- Age-->
                     <div class="input-group">
                         <span class="input-group-addon" id="patientAgeArea">Age</span>
-                        <input id="patientAge" type="text" class="form-control"
-                                aria-describedby="patientAgeArea"
+                        <input id="patientEntryAge" type="text" class="form-control"
+                               aria-describedby="patientAgeArea"
                                value={{patientInfo.age}}>
                     </div>
 
                     <!-- Address-->
                     <div class="input-group">
                         <span class="input-group-addon" id="patientAddressArea">Address</span>
-                        <input id="patientAddress" type="text" class="form-control"
+                        <input id="patientEntryAddress" type="text" class="form-control"
                                aria-describedby="patientAgeArea"
                                value={{patientInfo.address}}>
                     </div>
@@ -166,7 +176,7 @@
                     <!-- Phone Number-->
                     <div class="input-group">
                         <span class="input-group-addon" id="patientPhoneArea">Phone Number</span>
-                        <input id="patientPhone" type="text" class="form-control"
+                        <input id="patientEntryPhoneNumber" type="text" class="form-control"
                                aria-describedby="patientPhoneArea"
                                value={{patientInfo.phonenumber}}>
                     </div>
@@ -174,7 +184,7 @@
                     <!-- Email-->
                     <div class="input-group">
                         <span class="input-group-addon" id="patientEmailArea">Email</span>
-                        <input id="patientEmail" type="text" class="form-control"
+                        <input id="patientEntryEmail" type="text" class="form-control"
                                aria-describedby="patientEmailArea"
                                value={{patientInfo.email}}>
                     </div>
@@ -182,8 +192,9 @@
                 </div>
 
             </div>
-            <div class = "modal-footer">
-                <button class = "btn btn-success">Save Info</button> <!-- Should refresh the main page -->
+            <div class="modal-footer">
+                <button class="btn btn-success" ng-click="SavePatientInformation()">Save Info</button>
+                <!-- Should refresh the main page -->
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -191,21 +202,24 @@
     </div>
 
 </div>
-
 
 
 <!-- Calculator Info Modal -->
-<div id = "calculatorInfoModal" class = "modal fade" role = "dialog">
-    <div class = "modal-dialog">
-        <div class = "modal-content">
-            <div class = "modal-header">
+<div id="calculatorInfoModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
                 <h3>Cardiovascular Risk Calculator</h3>
 
             </div>
-            <div class = "modal-body">
+            <div class="modal-body">
+                <div class="input-group">
+                    <span class="input-group-addon">Email</span>
+
+                </div>
 
             </div>
-            <div class = "modal-footer">
+            <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -215,19 +229,64 @@
 </div>
 
 
-
-
 <!-- Appointment Info Modal -->
-<div id = "appointmentInfoModal" class = "modal fade" role = "dialog">
-    <div class = "modal-dialog">
-        <div class = "modal-content">
-            <div class = "modal-header">
-                <h3>Book an appointment with {{patientInfo.gp}}</h3>
-            </div>
-            <div class = "modal-body">
+<div id="appointmentModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Book appointment with {{clinicianDetails.firstname}} {{clinicianDetails.lastname}}</h3>
 
             </div>
-            <div class = "modal-footer">
+            <div class="modal-body">
+                <h2>Clinician Details</h2>
+                <h3 class = "customText">Name : {{clinicianDetails.firstname}}, {{clinicianDetails.lastname}}</h3>
+                <h3 class = "customText">Occupation : {{clinicianDetails.occupation}}</h3>
+                <h3 class = "customText">GP Postcode : {{clinicianDetails.address}}</h3>
+                <h3 class = "customText">Phonenumber : {{clinicianDetails.phonenumber}}</h3>
+                <h3 class = "customText">Email : {{clinicianDetails.email}}</h3>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Recommendation Info Modal -->
+<div id="recommendationModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Recommendations</h3>
+
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Previous Recommendation</th>
+                        <th>Clinician</th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+                    <tr ng-repeat="recommendation in patientInfo.recommendations">
+                        <td>{{recommendation.recommendation}}</td>
+                        <td>{{patientInfo.gp}}</td>
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+            <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>

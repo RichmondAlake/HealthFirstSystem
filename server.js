@@ -117,10 +117,10 @@ app.get('/patientList/:clinician', function (request, response) {
 app.get('/patient/:nhsnumber', function (request, response) {
     var nhsnumber = parseInt(request.params.nhsnumber);
     console.log("Getting information for " + nhsnumber);
-    patientsDb.patients.findOne( {nhsnumber : nhsnumber}, function (err, doc) {
+    patientsDb.patients.findOne({nhsnumber: nhsnumber}, function (err, doc) {
 
-            console.log(doc);
-            response.send(doc);
+        console.log(doc);
+        response.send(doc);
 
     });
 });
@@ -139,64 +139,107 @@ app.get('/patientLists/:id', function (request, response) {
     });
 });
 
+/** Get information on a particular clinician **/
+app.get('/clinician/:clinician', function (request, response) {
+
+    var clinician = parseInt(request.params.clinician);
+    console.log("Getting information for " + clinician);
+    cliniciansDb.clinicians.findOne({nhsnumber: clinician}, function (err, doc) {
+        if (err) {
+            response.send("Cannot retrieve clinician")
+        } else {
+            console.log(doc);
+            response.send(doc);
+        }
+    });
+});
+
 /** placing recommendation in the database **/
-app.put('/recommendation/:id', function (request, response){
+app.put('/recommendation/:id', function (request, response) {
     var id = request.params.id;
     console.log(id);
     var recommendation = request.body.recommendation;
 
-    patientsDb.patients.findAndModify({query : {_id:mongojs.ObjectId(id)},
+    patientsDb.patients.findAndModify({
+        query: {_id: mongojs.ObjectId(id)},
 //need to test
-        update:
-        {
-            $addToSet :
-            {
-                "recommendations" :
-                {
-                    recommendation : recommendation
+        update: {
+            $addToSet: {
+                "recommendations": {
+                    recommendation: recommendation
                 }
             }
 
 
         },
-        new : true}, function (doc, err){
+        new: true
+    }, function (doc, err) {
         response.send(doc);
     });
 });
 
 /**Updating records in database based on entry **/
-app.put('/patientLists/:id', function (request, response){
+app.put('/patientLists/:id', function (request, response) {
     var id = request.params.id;
     var currentMonth = request.body.currentMonth;
     var currentFullTime = request.body.currentFullTime;
     console.log(currentMonth);
     console.log(currentFullTime);
-    patientsDb.patients.findAndModify({query : {_id:mongojs.ObjectId(id)},
+    patientsDb.patients.findAndModify({
+        query: {_id: mongojs.ObjectId(id)},
 //need to test
-    update:
-    {
-        $set:
-    {
-        age : request.body.age,
-        cholesterol : request.body.cholesterol,
-        diastolicbp : request.body.diastolicbp,
-        systolicbp: request.body.systolicbp,
-        gender : request.body.gender,
-        medication : request.body.medication,
-        smoker : request.body.smoker},
-        $addToSet :
-        {
-            "riskstoreddata" :
-            {
-                calculatedrisk : "4",
-                currentFullTime : currentFullTime,
-                currentMonth : currentMonth
+        update: {
+            $set: {
+                age: request.body.age,
+                cholesterol: request.body.cholesterol,
+                diastolicbp: request.body.diastolicbp,
+                systolicbp: request.body.systolicbp,
+                gender: request.body.gender,
+                medication: request.body.medication,
+                smoker: request.body.smoker
+            },
+            $addToSet: {
+                "riskstoreddata": {
+                    calculatedrisk: "4",
+                    currentFullTime: currentFullTime,
+                    currentMonth: currentMonth
+                }
             }
-        }
 
 
-    },
-        new : true}, function (doc, err){
+        },
+        new: true
+    }, function (doc, err) {
+        response.send(doc);
+    });
+});
+
+
+/** Update database records that a patients changes in the client side **/
+app.put('/patientUpdate/:id', function (request, response) {
+    var id = request.params.id;
+    var address = request.body.address;
+    var email = request.body.email;
+    console.log(id);
+    console.log(address);
+    console.log(email);
+    patientsDb.patients.findAndModify({
+        query: {_id: mongojs.ObjectId(id)},
+//need to test
+        update: {
+            $set: {
+                firstname: request.body.firstname,
+                lastname: request.body.lastname,
+                address: request.body.address,
+                email: request.body.email,
+                phonenumber: request.body.phonenumber,
+                age: request.body.age
+            }
+
+
+        },
+        new: true
+    }, function (doc, err) {
         response.send(doc);
     });
 });

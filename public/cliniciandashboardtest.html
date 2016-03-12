@@ -298,27 +298,18 @@
                                         <table class="table table-bordered">
                                             <thead>
                                             <tr>
-                                                <th>Recommendation</th>
+                                                <th>Previous Recommendation</th>
                                                 <th>Clinician</th>
-                                                <th>Time</th>
+
                                             </tr>
 
                                             </thead>
 
                                             <tbody>
-                                            <tr>
-                                                <td>{{specPatientInfo.recommendations[1].recommendation}}</td>
-                                                <td></td>
+                                            <tr ng-repeat="recommendation in specPatientInfo.recommendations">
+                                                <td>{{recommendation.recommendation}}</td>
+                                                <td>{{specPatientInfo.gp}}</td>
                                             </tr>
-                                            <tr>
-                                                <td>{{specPatientInfo.recommendations[2].recommendation}}</td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>{{specPatientInfo.recommendations[3].recommendation}}</td>
-                                                <td></td>
-                                            </tr>
-
 
                                             </tbody>
 

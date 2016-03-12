@@ -3,7 +3,6 @@
 //document.write('<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>');
 
 
-
 //loading neccesary functions on page load
 var myApp = angular.module('myApp', ['ngRoute']);
 
@@ -35,7 +34,7 @@ myApp.controller('patientDashboard', function ($scope, $http) {
     };
 
     //creating function for loading current graph data
-    $scope.loadGraphPatientDashBoard = function(){
+    $scope.loadGraphPatientDashBoard = function () {
 
         //array to store values to plot on graph
         var yearLabels = [];
@@ -45,32 +44,85 @@ myApp.controller('patientDashboard', function ($scope, $http) {
         var CVDRiskValueArrayLength = $scope.patientInfo.riskstoreddata.length;
 
         //for loop to loop through object in array and push results onto assigned arrays
-        for(var i = 0; i < CVDRiskValueArrayLength; i++ ){
+        for (var i = 0; i < CVDRiskValueArrayLength; i++) {
             yearLabels.push($scope.patientInfo.riskstoreddata[i].currentMonth);
             CVDRisks.push($scope.patientInfo.riskstoreddata[i].calculatedrisk);
         }
 
 
-
         var data = {
-            labels : yearLabels, //months
+            labels: yearLabels, //months
             series: [CVDRisks] // CVD results
         };
 
         var options = {
             width: 700,
             height: 500,
-            high:100,
+            high: 100,
             low: 0,
-            axisY : {
-                onlyInteger : true,
-                labelInterpolationFnc: function(value) {return value + '%';}
+            axisY: {
+                onlyInteger: true,
+                labelInterpolationFnc: function (value) {
+                    return value + '%';
+                }
             }
         };
 
-        new Chartist.Line('.ct-chart',data, options);
+        new Chartist.Line('.ct-chart', data, options);
 
     };
+
+    $scope.SavePatientInformation = function () {
+        $scope.firstname = document.getElementById('patientEntryFirstName').value;
+        alert($scope.firstname);
+        $scope.patientInfo.firstname = $scope.firstname;
+        alert($scope.patientInfo.firstname);
+
+        $scope.lastname = document.getElementById('patientEntryLastName').value;
+        $scope.patientInfo.lastname = $scope.lastname;
+
+        $scope.age = document.getElementById('patientEntryAge').value;
+        $scope.patientInfo.age = $scope.age;
+
+        $scope.address = document.getElementById('patientEntryAddress').value;
+        $scope.patientInfo.address = $scope.address;
+
+        $scope.phonenumber = document.getElementById('patientEntryPhoneNumber').value;
+        $scope.patientInfo.phonenumber = $scope.phonenumber;
+
+        $scope.email = document.getElementById('patientEntryEmail').value;
+        $scope.patientInfo.email = $scope.email;
+
+
+        $http.put('/patientUpdate/' +  $scope.patientInfo._id, $scope.patientInfo).success(function (request, response) {
+
+            console.log(response);
+
+        });
+
+
+    };
+
+
+    //function that handles appointments and displays clinicians information within the patient's dashboard
+    $scope.BookAppointment = function (clinician){
+        //get all assigned clinician's detail
+        console.log("Getting details of : " + clinician);
+        //$scope.clinician = clinician;
+
+        //make request to the database for clinician details
+        $http.get('/clinician/' + clinician).success(function (response) {
+            $scope.clinicianDetails = response;
+            //console.log("Details of the clinicians is held here : " + response);
+            console.log($scope.clinicianDetails);
+            console.log($scope.clinicianDetails[0]);
+
+
+
+        });
+
+
+    }
 });
 
 
@@ -102,7 +154,6 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
     };
 
 
-
     //calculate risk based on database records
     $scope.calculateRiskBasedOnRecords = function () {
         var age = document.getElementById('patientAge').value;
@@ -112,7 +163,6 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
         var gender = document.getElementById('patientGender').value;
         var medication = document.getElementById('patientMedication').value;
         var smoker = document.getElementById('patientSmoker').value;
-
 
 
         var pointsLDL = 0; //firstly initialised here
@@ -199,7 +249,7 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
 
     };
 
-    $scope.saveAllEntry = function(){
+    $scope.saveAllEntry = function () {
 
         //get current time when the button is clicked
         var currentFullTime = new Date();
@@ -208,43 +258,42 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
         //var currentDay = currentFullTime.getDay();
 
         //setting months association with number returned from function
-        if (currentMonth == 0){
+        if (currentMonth == 0) {
             currentMonth = 'January';
         }
-        else if (currentMonth == 1){
+        else if (currentMonth == 1) {
             currentMonth = 'February'
         }
-        else if (currentMonth == 2){
+        else if (currentMonth == 2) {
             currentMonth = 'March'
         }
-        else if (currentMonth == 3){
+        else if (currentMonth == 3) {
             currentMonth = 'April'
         }
-        else if (currentMonth == 4){
+        else if (currentMonth == 4) {
             currentMonth = 'May'
         }
-        else if (currentMonth == 5){
+        else if (currentMonth == 5) {
             currentMonth = 'June'
         }
-        else if (currentMonth == 6){
+        else if (currentMonth == 6) {
             currentMonth = 'July'
         }
-        else if (currentMonth == 7){
+        else if (currentMonth == 7) {
             currentMonth = 'August'
         }
-        else if (currentMonth == 8){
+        else if (currentMonth == 8) {
             currentMonth = 'September'
         }
-        else if (currentMonth == 9){
+        else if (currentMonth == 9) {
             currentMonth = 'October'
         }
-        else if (currentMonth == 10){
+        else if (currentMonth == 10) {
             currentMonth = 'November'
         }
-        else if (currentMonth == 11){
+        else if (currentMonth == 11) {
             currentMonth = 'December'
         }
-
 
 
         //enable all input boxes to become accessible
@@ -258,7 +307,7 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
 
         $scope.specPatientInfo.age = document.getElementById('patientAge').value;
         $scope.specPatientInfo.cholesterol = document.getElementById('patientChol').value;
-        $scope.specPatientInfo.diastolicbp= document.getElementById('patientdiastolicbp').value;
+        $scope.specPatientInfo.diastolicbp = document.getElementById('patientdiastolicbp').value;
         $scope.specPatientInfo.systolicbp = document.getElementById('patientsystolicbp').value;
         $scope.specPatientInfo.gender = document.getElementById('patientGender').value;
         $scope.specPatientInfo.medication = document.getElementById('patientMedication').value;
@@ -270,7 +319,7 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
         $scope.specPatientInfo.currentMonth = currentMonth;
 
 
-        $http.put('/patientLists/' + $scope.specPatientInfo._id, $scope.specPatientInfo).success( function (request, response){
+        $http.put('/patientLists/' + $scope.specPatientInfo._id, $scope.specPatientInfo).success(function (request, response) {
 
             console.log(response);
 
@@ -280,7 +329,7 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
 
 
     //creating function for loading current graph data
-    $scope.loadGraph = function(){
+    $scope.loadGraph = function () {
 
         //array to store values to plot on graph
         var yearLabels = [];
@@ -290,42 +339,43 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
         var CVDRiskValueArrayLength = $scope.specPatientInfo.riskstoreddata.length;
 
         //for loop to loop through object in array and push results onto assigned arrays
-        for(var i = 0; i < CVDRiskValueArrayLength; i++ ){
+        for (var i = 0; i < CVDRiskValueArrayLength; i++) {
             yearLabels.push($scope.specPatientInfo.riskstoreddata[i].currentMonth);
             CVDRisks.push($scope.specPatientInfo.riskstoreddata[i].calculatedrisk);
         }
 
 
-
         var data = {
-            labels : yearLabels, //months
+            labels: yearLabels, //months
             series: [CVDRisks] // CVD results
         };
 
         var options = {
             width: 700,
             height: 500,
-            high:100,
+            high: 100,
             low: 0,
-            axisY : {
-                onlyInteger : true,
-                labelInterpolationFnc: function(value) {return value + '%';}
+            axisY: {
+                onlyInteger: true,
+                labelInterpolationFnc: function (value) {
+                    return value + '%';
+                }
             }
         };
 
-        new Chartist.Line('.ct-chart',data, options);
+        new Chartist.Line('.ct-chart', data, options);
 
     };
     //window.onload = $scope.loadSpecPat;
 
 
     //making recommendations, capturing recommendation and time recommendation is made??
-    $scope.Recommendation = function(){
+    $scope.Recommendation = function () {
         //clear input box after recommendation
         var recommendation = $scope.recommendation;
         $scope.specPatientInfo.recommendation = recommendation;
         console.log("sending recommendation to server " + $scope.specPatientInfo.recommendation);
-        $http.put('/recommendation/' + $scope.specPatientInfo._id, $scope.specPatientInfo).success( function (request, response){
+        $http.put('/recommendation/' + $scope.specPatientInfo._id, $scope.specPatientInfo).success(function (request, response) {
             console.log(response);
         });
 
@@ -333,10 +383,8 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
 });
 
 
-
-
 //window.onload = $scope.loadSpecPat;
-function refresh(){
+function refresh() {
     window.location.reload();
 }
 
