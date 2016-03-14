@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="myApp" xmlns:margin-left="http://www.w3.org/1999/xhtml">
+<html ng-app="myApp" xmlns:margin-left="http://www.w3.org/1999/xhtml" xmlns:width="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Health First</title>
@@ -202,18 +202,75 @@
                                     <!-- AGE-->
                                     <div class="input-group">
                                         <span class="input-group-addon" id="patientAgeArea">Age</span>
-                                        <input id="patientAge" type="number" class="form-control"
+                                        <input id="patientAge" type="number" maxlength="2" class="form-control"
                                                readonly="readonly" aria-describedby="patientAge"
                                                value={{specPatientInfo.age}}>
                                     </div>
 
-                                    <!-- CHLOESTEROL-->
-                                    <div class="input-group">
-                                        <span class="input-group-addon" id="patientCholArea">Cholesterol</span>
-                                        <input id="patientChol" type="number" class="form-control"
-                                               readonly="readonly" aria-describedby="patientChol"
-                                               value={{specPatientInfo.cholesterol}}>
+                                    <!-- Diabetic -->
+                                    <h2 class="customText">Diabetic: </h2>  <input id="patientDiabetic" type="text"
+                                                                                   class="form-control"
+                                                                                   readonly="readonly"
+                                                                                   value={{specPatientInfo.diabetic}}>
+                                    <div class="radio">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="diabeticCheckBox" id="patientDiabeticYes"> Yes
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="radio" name="diabeticCheckBox" id="patientDiabeticNo"> No
+                                        </label>
                                     </div>
+
+                                    <!-- Smoker -->
+                                    <h2 class="customText">Smoker: </h2>  <input id="patientSmoker" type="text"
+                                                                                 class="form-control"
+                                                                                 readonly="readonly"
+                                                                                 value={{specPatientInfo.smoker}}>
+                                    <div class="radio">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="smokerCheckBox" id="patientSmokerYes"> Yes
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            <input type="radio" name="smokerCheckBox" id="patientSmokerNo"> No
+                                        </label>
+                                    </div>
+
+
+                                    <!-- LDL_C and Cholesterol-->
+                                    <div>
+                                        <h2 class="customText">Select either Cholesterol or LDL_C from the dropdown
+                                            below</h2>
+                                        <select id="clinicianCholesterolChoice" onchange="getChoice(value)">
+                                            <!-- getChoice(value) not implemented yet-->
+                                            <option value="LDL_C">LDL-C</option>
+                                            <option value="Cholesterol">Cholesterol</option>
+                                        </select>
+
+                                        <input id="patientCholesterol" type="number" class="form-control"
+                                               readonly="readonly"
+                                               value={{specPatientInfo.cholesterol}}>
+
+                                        <select id="patientMeasurement" onchange="getMeasurement(value)">
+                                            <!-- getMeasurement(value) not implemented yet-->
+                                            <option value="mg/dl">mg/dL</option>
+                                            <option value="mmol/L">mmol/L</option>
+                                        </select>
+                                    </div>
+
+
+                                    <!-- HDL_C-->
+                                    <div>
+                                        <h2 class="customText">HDL_C</h2>
+                                        <input id="patienthdlc" type="number" class="form-control"
+                                               readonly="readonly"
+                                               value={{specPatientInfo.hdlc}}>
+                                        <select id="clinicianHDLChoice" onchange="getChoice(value)">
+                                            <!-- getChoice(value) not implemented yet-->
+                                            <option value="mg/dl">mg/dL</option>
+                                            <option value="mmol/L">mmol/L</option>
+                                        </select>
+                                    </div>
+
 
                                     <!-- DIASTOLIC BLOOD PRESSURE-->
                                     <div class="input-group">
@@ -233,13 +290,19 @@
                                                value={{specPatientInfo.systolicbp}}>
                                     </div>
 
-                                    <!-- GENDER-->
-                                    <div class="input-group">
-                                        <span class="input-group-addon" id="patientGenderArea">Gender</span>
-                                        <input id="patientGender" type="text" class="form-control"
-                                               readonly="readonly" aria-describedby="patientGenderArea"
-                                               value={{specPatientInfo.gender}}>
-                                    </div>
+
+
+                                    <!-- Gender -->
+                                    <h2 class="customText">Smoker: </h2>  <input id="patientGender" type="text"
+                                                                                 class="form-control"
+                                                                                 readonly="readonly"
+                                                                                 value={{specPatientInfo.gender}}>
+
+                                    <select id="patientSexChoice" onchange="getPatient(value)">
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+
 
                                     <!-- MEDICATION-->
                                     <div class="input-group">
@@ -249,12 +312,12 @@
                                                value={{specPatientInfo.medication}}>
                                     </div>
 
-                                    <!-- SMOKER-->
-                                    <div class="input-group">
-                                        <span class="input-group-addon" id="patientSmokerArea">Smoker</span>
-                                        <input id="patientSmoker" type="text" class="form-control"
-                                               readonly="readonly" aria-describedby="patientSmokerArea"
-                                               value={{specPatientInfo.smoker}}>
+                                    <div id="resultContent">
+
+                                    </div>
+
+                                    <div id="comparativeRisk">
+
                                     </div>
 
 

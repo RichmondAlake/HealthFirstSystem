@@ -196,7 +196,9 @@ app.put('/patientLists/:id', function (request, response) {
                 systolicbp: request.body.systolicbp,
                 gender: request.body.gender,
                 medication: request.body.medication,
-                smoker: request.body.smoker
+                smoker: request.body.smoker,
+                diabetic: request.body.diabetic,
+                hdlc : request.body.hdlc
             },
             $addToSet: {
                 "riskstoreddata": {

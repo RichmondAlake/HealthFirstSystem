@@ -262,7 +262,6 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Recommendations</h3>
-
             </div>
             <div class="modal-body">
                 <table class="table table-bordered">
@@ -270,29 +269,21 @@
                     <tr>
                         <th>Previous Recommendation</th>
                         <th>Clinician</th>
-
                     </tr>
-
                     </thead>
-
                     <tbody>
                     <tr ng-repeat="recommendation in patientInfo.recommendations">
                         <td>{{recommendation.recommendation}}</td>
                         <td>{{patientInfo.gp}}</td>
                     </tr>
-
                     </tbody>
-
                 </table>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
-
     </div>
-
 </div>
 
 
