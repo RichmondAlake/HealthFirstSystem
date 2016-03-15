@@ -202,7 +202,8 @@ app.put('/patientLists/:id', function (request, response) {
             },
             $addToSet: {
                 "riskstoreddata": {
-                    calculatedrisk: "4",
+                    calculatedrisk: request.body.riskPoint,
+                    calculatedPercentage : request.body.riskPercentage,
                     currentFullTime: currentFullTime,
                     currentMonth: currentMonth
                 }

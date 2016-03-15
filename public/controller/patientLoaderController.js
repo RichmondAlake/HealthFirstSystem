@@ -130,14 +130,12 @@ myApp.controller('patientDashboard', function ($scope, $http) {
 myApp.controller('allSpecPatient', function ($scope, $http) {
 
     //load patients assigned to clinicians onclick
-
     window.onload = $scope.loadSpecPat = function (clinician) {
         clinician = " "; //clinicians is always empty space, comment this line to make it search box name
         //alert(clinician);
         console.log('sent request for patients assigned to' + clinician);
         $http.get('/patientList/' + clinician).success(function (response) {
             $scope.patientList = response;
-
         });
     };
 
@@ -155,81 +153,9 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
 
     //calculate risk based on database records
     $scope.calculateRiskBasedOnRecords = function () {
-        var age = document.getElementById('patientAge').value;
-        var chol = document.getElementById('patientChol').value;
-        var dbp = document.getElementById('patientdiastolicbp').value;
-        var sbp = document.getElementById('patientsystolicbp').value;
-        var gender = document.getElementById('patientGender').value;
-        var medication = document.getElementById('patientMedication').value;
-        var smoker = document.getElementById('patientSmoker').value;
-
-
-        var pointsLDL = 0; //firstly initialised here
-
-
-        //section to categorise AGE and assign points based database records
-
-        if (age <= 34) {
-            pointsLDL = -9;
-
-        }
-        else if (age <= 39) {
-            pointsLDL = -4;
-
-        }
-        else if (age <= 44) {
-            pointsLDL = 0;
-
-        }
-        else if (age <= 49) {
-            pointsLDL = 3;
-
-        }
-        else if (age <= 54) {
-            pointsLDL = 6;
-
-        }
-        else if (age <= 59) {
-            pointsLDL = 7;
-
-        }
-        else if (age <= 64) {
-            pointsLDL = 8;
-
-        }
-        else if (age <= 74) {
-            pointsLDL = 8;
-
-        }
-
-        //section to categorise CHOLESTEROL and assign points based database records
-        //using (mg/dl), *** should create a system where both can be used
-        /** (mg/dl)**/
-        if (chol <= 160) {
-            pointsLDL += -2;
-            alert(pointsLDL);
-        }
-        else if (chol <= 199) {
-            pointsLDL += 0;
-            alert(pointsLDL);
-        }
-        else if (chol <= 239) {
-            pointsLDL += 1;
-            alert(pointsLDL);
-        }
-        else if (chol <= 279) {
-            pointsLDL += 1;
-            alert(pointsLDL);
-        }
-        else if (chol <= 280) {
-            pointsLDL += 3;
-            alert(pointsLDL);
-        }
-
-
-        /** need to send the calculated risk result back to the database **/
 
         $scope.saveAllEntry();
+
     };
 
     $scope.calculateRiskBasedOnEntry = function () {
@@ -249,7 +175,18 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
 
     };
 
+    // using this function to invoke the calculation for patient.
+    $scope.saveAllEntryPatientDashboard = function(){
+        $scope.loadPatientInfo($scope.patientInfo._id);
+        $scope.saveAllEntry();
+
+    };
+
     $scope.saveAllEntry = function () {
+
+
+
+
         //disable button as soon as function is invoked
         var saveButtonEntry = document.getElementById('saveEntryButton').disabled = true;
 
@@ -311,7 +248,7 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
         var diabeticNo = document.getElementById('patientDiabeticNo').readOnly = true;
         var hdlc = document.getElementById('patienthdlc').readOnly = true;
 
-
+        console.log(document.getElementById('patientMedication').value);
         $scope.specPatientInfo.medication = document.getElementById('patientMedication').value; //not needed
 
 
@@ -372,7 +309,7 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
         //getting age point
         var agePoint = getAgePoints($scope.specPatientInfo.age);
         //getting user gender
-        $scope.specPatientInfo.gender = document.getElementById('patientGender').value;
+        $scope.specPatientInfo.gender = document.getElementById('patientSexChoice').value;
         //getting blood pressure point
         var BPPoint = getBPPoints($scope.specPatientInfo.diastolicbp, $scope.specPatientInfo.systolicbp);
         //getting diabetic point
@@ -396,11 +333,26 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
         //GETCHDRISK
         var patientCHDRisk = getCHDRisk(PointsTotal);
         document.getElementById('resultContent').innerHTML = "Total Points: " + PointsTotal + "  Risk: " + patientCHDRisk + " &#37";
+        // placing calculated risk points and percentage to specPatientInfo body
+        $scope.specPatientInfo.riskPercentage = patientCHDRisk;
+        $scope.specPatientInfo.riskPoint = PointsTotal;
+
 
         var comparativeRisk = getComparativeRisk($scope.specPatientInfo.age);
-        console.log(comparativeRisk[0] + "," + comparativeRisk[1] + ","+  comparativeRisk[2] + "," +  comparativeRisk[3]);
+        console.log(comparativeRisk[0] + "," + comparativeRisk[1] + "," + comparativeRisk[2] + "," + comparativeRisk[3]);
         var contentHTML = "<table class = 'table'><tr><th>Age</th><th>Average</th><th>Hard Average</th><th>Low Average</th></tr><tr><td>" + comparativeRisk[0] + " &#37 </td><td>" + comparativeRisk[1] + " &#37 </td><td>" + comparativeRisk[2] + " &#37 </td><td>" + comparativeRisk[3] + " &#37 </td></tr></table>";
         document.getElementById('comparativeRisk').innerHTML = contentHTML;
+
+        if (patientCHDRisk > 20) {
+            document.getElementById('systemAdvice').innerHTML = "Advice : Place advice for less than 20%";
+        } else if (patientCHDRisk > 40) {
+            document.getElementById('systemAdvice').innerHTML = "Advice : Place advice for less than 40%";
+        } else if (patientCHDRisk > 60) {
+            document.getElementById('systemAdvice').innerHTML = "Advice : Place advice for less than 80%";
+        } else if (patientCHDRisk > 80) {
+            document.getElementById('systemAdvice').innerHTML = "Advice : Place advice for less than 100%";
+        }
+
 
         //adding currentFullTime and CurrentMonth into the specPatientInfo object
         $scope.specPatientInfo.currentFullTime = currentFullTime;
@@ -1012,14 +964,17 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
         /** END **/
 
 
+        /**place if statement here to determine what dashboard is using the function, you can use the values that are pre-populated**/
 
+        if ($scope.patientList == null) {
+            //don't send the request
+        }
+        else {
+            $http.put('/patientLists/' + $scope.specPatientInfo._id, $scope.specPatientInfo).success(function (request, response) {
+                console.log(response);
+            });
+        }
 
-
-        $http.put('/patientLists/' + $scope.specPatientInfo._id, $scope.specPatientInfo).success(function (request, response) {
-
-            console.log(response);
-
-        });
 
     };
 
@@ -1037,7 +992,7 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
         //for loop to loop through object in array and push results onto assigned arrays
         for (var i = 0; i < CVDRiskValueArrayLength; i++) {
             yearLabels.push($scope.specPatientInfo.riskstoreddata[i].currentMonth);
-            CVDRisks.push($scope.specPatientInfo.riskstoreddata[i].calculatedrisk);
+            CVDRisks.push($scope.specPatientInfo.riskstoreddata[i].calculatedPercentage);
         }
 
 

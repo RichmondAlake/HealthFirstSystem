@@ -67,8 +67,10 @@
 
     <div class="col-md-6">
         <h1>Medical Information</h1>
-        <h3 class="customText">Assigned Clinician : <a href = "#appointmentModal" data-toggle="modal" data-target="#appointmentModal"
-                                                       ng-click="BookAppointment(patientInfo.gp)">{{patientInfo.gp}}</a></h3>
+        <h3 class="customText">Assigned Clinician : <a href="#appointmentModal" data-toggle="modal"
+                                                       data-target="#appointmentModal"
+                                                       ng-click="BookAppointment(patientInfo.gp)">{{patientInfo.gp}}</a>
+        </h3>
         <h3 class="customText">Cholesterol : {{patientInfo.cholesterol}}</h3>
         <h3 class="customText">Diastolic Blood Pressure : {{patientInfo.diastolicbp}}</h3>
         <h3 class="customText">Systolic Blood Pressure : {{patientInfo.systolicbp}}</h3>
@@ -82,19 +84,19 @@
     <div class="col-md-6">
         <!-- Information on Latest CVD calculation -->
         <center><h3>CVD Risk Result Table</h3></center>
-        <table class="table table-bordered" style="margin-top:50px">
+        <table class="table table-bordered customtable" style="margin-top:50px; width:1000px; height:700px">
             <thead>
-            <th>Time</th>
-            <th>CVD Point</th>
-            <th>CVD Point %</th>
+            <th style="width:300px; text-align: center">Time</th>
+            <th style="width:300px; text-align: center">CVD Point</th>
+            <th style="width:300px; text-align: center">CVD Point %</th>
 
             </thead>
 
             <tbody>
             <tr ng-repeat="calculatedrisk in patientInfo.riskstoreddata">
-                <td>{{calculatedrisk.currentFullTime}}</td>
-                <td>{{calculatedrisk.calculatedrisk}}</td>
-                <td></td>
+                <td style="width:300px; text-align: center">{{calculatedrisk.currentFullTime}}</td>
+                <td style="width:300px; text-align: center">{{calculatedrisk.calculatedrisk}}</td>
+                <td style="width:300px; text-align: center">{{calculatedrisk.calculatedPercentage}}</td>
 
 
             </tr>
@@ -103,7 +105,7 @@
         </table>
     </div>
 
-    <div class="col-md-6" ng-controller="allSpecPatient">
+    <div class="col-md-6">
         <!-- graph-->
         <center><h3>CVD Risk Result Graph</h3></center>
         <center>
@@ -132,7 +134,7 @@
 </div>
 
 <!-- Patient Info Modal -->
-<div id="editInfoModal" class="modal fade" role="dialog">
+<div id="editInfoModal" class="modal fade" role="dialog" ng-controller="allSpecPatient">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -159,7 +161,7 @@
 
                     <!-- Age-->
                     <div class="input-group">
-                        <span class="input-group-addon" id="patientAgeArea">Age</span>
+                        <span class="input-group-addon">Age</span>
                         <input id="patientEntryAge" type="text" class="form-control"
                                aria-describedby="patientAgeArea"
                                value={{patientInfo.age}}>
@@ -205,8 +207,8 @@
 
 
 <!-- Calculator Info Modal -->
-<div id="calculatorInfoModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+<div id="calculatorInfoModal" class="modal fade" role="dialog" ng-controller="allSpecPatient">
+    <div class="modal-dialog" style="width:100%; height:100%; padding:0;">
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Cardiovascular Risk Calculator</h3>
@@ -214,17 +216,176 @@
             </div>
             <div class="modal-body">
                 <div class="input-group">
-                    <span class="input-group-addon">Email</span>
+
+                    <div class="row">
+                        <div class="col-md-6" style="margin-left:200px; margin-top:50px">
+                            <img src="img/profile-placeholder.jpg" style="float:left">
+
+                            <h3> {{patientInfo.nhsnumber}}</h3>
+                            <h3> {{patientInfo.firstname}}</h3>
+                            <h3> {{patientInfo.lastname}}</h3>
+                            <h3> {{patientInfo.age}}</h3>
+
+                            <!-- Result shown section -->
+                            <div class="row" style=" margin-top:230px;">
+                                <div class="col-md-6" id="resultContent"
+                                     style=" color: red; font-size:20pt;">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6" style="margin-top:10px">
+                                <div class="container" id="comparativeRisk" style=" width:500px;">
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-6" style="margin-left:-300px">
+                            <h2>{{patientInfo.firstname}}'s Medical Information</h2>
+
+                            <!-- AGE-->
+                            <div class="input-group">
+                                <span class="input-group-addon" id="patientAgeArea">Age</span>
+                                <input id="patientAge" type="number" maxlength="2" class="form-control"
+                                       readonly="readonly" aria-describedby="patientAge"
+                                       value={{patientInfo.age}}>
+                            </div>
+
+                            <!-- Diabetic -->
+                            <h2 class="customText">Diabetic: </h2>  <input id="patientDiabetic" type="text"
+                                                                           class="form-control"
+                                                                           readonly="readonly"
+                                                                           value={{patientInfo.diabetic}}>
+                            <div class="radio">
+                                <label class="radio-inline">
+                                    <input type="radio" name="diabeticCheckBox" id="patientDiabeticYes"> Yes
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="radio" name="diabeticCheckBox" id="patientDiabeticNo"> No
+                                </label>
+                            </div>
+
+                            <!-- Smoker -->
+                            <h2 class="customText">Smoker: </h2>  <input id="patientSmoker" type="text"
+                                                                         class="form-control"
+                                                                         readonly="readonly"
+                                                                         value={{patientInfo.smoker}}>
+                            <div class="radio">
+                                <label class="radio-inline">
+                                    <input type="radio" name="smokerCheckBox" id="patientSmokerYes"> Yes
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="radio" name="smokerCheckBox" id="patientSmokerNo"> No
+                                </label>
+                            </div>
+
+
+                            <!-- LDL_C and Cholesterol-->
+                            <div>
+                                <h2 class="customText">Select either Cholesterol or LDL_C from the dropdown
+                                    below</h2>
+                                <select id="clinicianCholesterolChoice" onchange="getChoice(value)">
+                                    <!-- getChoice(value) not implemented yet-->
+                                    <option value="LDL_C">LDL-C</option>
+                                    <option value="Cholesterol">Cholesterol</option>
+                                </select>
+
+                                <input id="patientCholesterol" type="number" class="form-control"
+                                       readonly="readonly"
+                                       value={{patientInfo.cholesterol}}>
+
+                                <select id="patientMeasurement" onchange="getMeasurement(value)">
+                                    <!-- getMeasurement(value) not implemented yet-->
+                                    <option value="mg/dl">mg/dL</option>
+                                    <option value="mmol/L">mmol/L</option>
+                                </select>
+                            </div>
+
+
+                            <!-- HDL_C-->
+                            <div>
+                                <h2 class="customText">HDL_C</h2>
+                                <input id="patienthdlc" type="number" class="form-control"
+                                       readonly="readonly"
+                                       value={{specPatientInfo.hdlc}}>
+                                <select id="clinicianHDLChoice" onchange="getChoice(value)">
+                                    <!-- getChoice(value) not implemented yet-->
+                                    <option value="mg/dl">mg/dL</option>
+                                    <option value="mmol/L">mmol/L</option>
+                                </select>
+                            </div>
+
+
+                            <!-- DIASTOLIC BLOOD PRESSURE-->
+                            <div class="input-group">
+                                            <span class="input-group-addon"
+                                                  id="patientdiastolicbpArea">Diastolic BP</span>
+                                <input id="patientdiastolicbp" type="number" class="form-control"
+                                       readonly="readonly" aria-describedby="patientdiastolicbp"
+                                       value={{patientInfo.diastolicbp}}>
+                            </div>
+
+                            <!-- SYSTOLIC BLOOD PRESSURE-->
+                            <div class="input-group">
+                                            <span class="input-group-addon"
+                                                  id="patientsystolicbpArea">Systolic BP</span>
+                                <input id="patientsystolicbp" type="number" class="form-control"
+                                       readonly="readonly" aria-describedby="patientsystolicbp"
+                                       value={{patientInfo.systolicbp}}>
+                            </div>
+
+
+                            <!-- Gender -->
+                            <h2 class="customText">Gender: </h2>  <input id="patientGender" type="text"
+                                                                         class="form-control"
+                                                                         readonly="readonly"
+                                                                         value={{patientInfo.gender}}>
+
+                            <select id="patientSexChoice" onchange="getPatient(value)">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+
+
+                            <!-- MEDICATION-->
+                            <div class="input-group">
+                                <span class="input-group-addon" id="patientMedArea">Medication</span>
+                                <input id="patientMedication" type="text" class="form-control"
+                                       readonly="readonly" aria-describedby="patientMedArea"
+                                       value={{patientInfo.medication}}>
+                            </div>
+
+                            <h2 class = "customText">Step 1 Click on Enable Entries, input values or leave otherwise</h2>
+                            <button class="btn btn-danger" ng-click="calculateRiskBasedOnEntry()">Enable Entries
+                            </button>
+
+                            <h2 class = "customText">Step 2 Lock in your results and let us do the work</h2>
+                            <button id="saveEntryButton" class="btn btn-primary"
+                                    ng-click="saveAllEntryPatientDashboard()"
+                                    disabled>Lock
+                            </button>
+
+                            <h2 class = "customText">Step 3 Click on the button to view your results</h2>
+                            <button class="btn btn-danger" ng-click="calculateRiskBasedOnRecords()">
+                                Show me results!
+                            </button>
+
+
+                        </div>
+                    </div>
+
 
                 </div>
 
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
 
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
     </div>
+
+</div>
 
 </div>
 
@@ -239,11 +400,11 @@
             </div>
             <div class="modal-body">
                 <h2>Clinician Details</h2>
-                <h3 class = "customText">Name : {{clinicianDetails.firstname}}, {{clinicianDetails.lastname}}</h3>
-                <h3 class = "customText">Occupation : {{clinicianDetails.occupation}}</h3>
-                <h3 class = "customText">GP Postcode : {{clinicianDetails.address}}</h3>
-                <h3 class = "customText">Phonenumber : {{clinicianDetails.phonenumber}}</h3>
-                <h3 class = "customText">Email : {{clinicianDetails.email}}</h3>
+                <h3 class="customText">Name : {{clinicianDetails.firstname}}, {{clinicianDetails.lastname}}</h3>
+                <h3 class="customText">Occupation : {{clinicianDetails.occupation}}</h3>
+                <h3 class="customText">GP Postcode : {{clinicianDetails.address}}</h3>
+                <h3 class="customText">Phonenumber : {{clinicianDetails.phonenumber}}</h3>
+                <h3 class="customText">Email : {{clinicianDetails.email}}</h3>
 
             </div>
             <div class="modal-footer">
