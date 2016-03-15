@@ -184,12 +184,8 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
 
     $scope.saveAllEntry = function () {
 
-
-
-
         //disable button as soon as function is invoked
         var saveButtonEntry = document.getElementById('saveEntryButton').disabled = true;
-
 
         //get current time when the button is clicked
         var currentFullTime = new Date();
