@@ -1,14 +1,5 @@
-//load angular beforehand
-//document.write('<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.2/angular.min.js"></script>');
-//document.write('<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>');
-
-
-//loading neccesary functions on page load
+//Initialising angular module
 var myApp = angular.module('myApp', ['ngRoute']);
-
-
-//setting views
-
 
 //Controller to load all database in the patients database (not used)
 myApp.controller('allPatientLoad', function ($scope, $http) {
@@ -72,7 +63,10 @@ myApp.controller('patientDashboard', function ($scope, $http) {
 
     };
 
+    //function to save patient's information
     $scope.SavePatientInformation = function () {
+
+
         $scope.firstname = document.getElementById('patientEntryFirstName').value;
         alert($scope.firstname);
         $scope.patientInfo.firstname = $scope.firstname;
@@ -106,9 +100,7 @@ myApp.controller('patientDashboard', function ($scope, $http) {
 
     //function that handles appointments and displays clinicians information within the patient's dashboard
     $scope.BookAppointment = function (clinician) {
-        //get all assigned clinician's detail
         console.log("Getting details of : " + clinician);
-        //$scope.clinician = clinician;
 
         //make request to the database for clinician details
         $http.get('/clinician/' + clinician).success(function (response) {
@@ -116,23 +108,26 @@ myApp.controller('patientDashboard', function ($scope, $http) {
             //console.log("Details of the clinicians is held here : " + response);
             console.log($scope.clinicianDetails);
             console.log($scope.clinicianDetails[0]);
-
-
         });
-
-
     }
 });
 
-
 //Controller to load assigned patients of searched Clinicians
-//modify later to get patients of the signed in clinicians...only takes in the full name
 myApp.controller('allSpecPatient', function ($scope, $http) {
 
-    //load patients assigned to clinicians onclick
+    //assigning targeted dom elements to variables
+    var age = document.getElementById('patientAge');
+    var chol = document.getElementById('patientCholesterol');
+    var dbp = document.getElementById('patientdiastolicbp');
+    var dsp = document.getElementById('patientsystolicbp');
+    var gender = document.getElementById('patientGender');
+    var medication = document.getElementById('patientMedication');
+    var smoker = document.getElementById('patientSmoker');
+    var hdcl = document.getElementById('patienthdlc');
+
     window.onload = $scope.loadSpecPat = function (clinician) {
-        clinician = " "; //clinicians is always empty space, comment this line to make it search box name
-        //alert(clinician);
+        clinician = " ";
+        /**clinicians is always empty space, comment this line to make it search just name**/
         console.log('sent request for patients assigned to' + clinician);
         $http.get('/patientList/' + clinician).success(function (response) {
             $scope.patientList = response;
@@ -150,48 +145,46 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
         });
     };
 
-
-    //calculate risk based on database records
-    $scope.calculateRiskBasedOnRecords = function () {
-
+    /**
+     *
+     * \\REMOVE AT THE END OF REFACTORING
+     //calculate risk based on database records
+     $scope.calculateRiskBasedOnRecords = function () {
         $scope.saveAllEntry();
-
     };
+     **/
 
     $scope.calculateRiskBasedOnEntry = function () {
         //enable save button
-        var saveButtonEntry = document.getElementById('saveEntryButton').disabled = false;
+        document.getElementById('saveEntryButton').disabled = false;
 
         //enable all input boxes to become accessible
-        var age = document.getElementById('patientAge').readOnly = false;
-        var chol = document.getElementById('patientCholesterol').readOnly = false;
-        var dbp = document.getElementById('patientdiastolicbp').readOnly = false;
-        var dbp = document.getElementById('patientsystolicbp').readOnly = false;
-        var gender = document.getElementById('patientGender').readOnly = false;
-        var medication = document.getElementById('patientMedication').readOnly = false;
-        var smoker = document.getElementById('patientSmoker').readOnly = false;
-        var hdcl = document.getElementById('patienthdlc').readOnly = false;
+        age.readOnly = false;
+        chol.readOnly = false;
+        dbp.readOnly = false;
+        dsp.readOnly = false;
+        gender.readOnly = false;
+        medication.readOnly = false;
+        smoker.readOnly = false;
+        hdcl.readOnly = false;
 
 
     };
 
     // using this function to invoke the calculation for patient.
-    $scope.saveAllEntryPatientDashboard = function(){
+    $scope.saveAllEntryPatientDashboard = function () {
         $scope.loadPatientInfo($scope.patientInfo._id);
         $scope.saveAllEntry();
-
     };
 
     $scope.saveAllEntry = function () {
 
         //disable button as soon as function is invoked
-        var saveButtonEntry = document.getElementById('saveEntryButton').disabled = true;
+        document.getElementById('saveEntryButton').disabled = true;
 
-        //get current time when the button is clicked
+
         var currentFullTime = new Date();
-        //var currentYear = currentFullTime.getYear().toString();
         var currentMonth = currentFullTime.getMonth();
-        //var currentDay = currentFullTime.getDay();
 
         //setting months association with number returned from function
         if (currentMonth == 0) {
@@ -231,18 +224,18 @@ myApp.controller('allSpecPatient', function ($scope, $http) {
             currentMonth = 'December'
         }
 
-
-        //enable all input boxes to become accessible
-        var age = document.getElementById('patientAge').readOnly = true;
-        var chol = document.getElementById('patientCholesterol').readOnly = true;
-        var dbp = document.getElementById('patientdiastolicbp').readOnly = true;
-        var dbp = document.getElementById('patientsystolicbp').readOnly = true;
-        var gender = document.getElementById('patientGender').readOnly = true;
-        var medication = document.getElementById('patientMedication').readOnly = true;
-        var smoker = document.getElementById('patientSmoker').readOnly = true;
+            //enable all input boxes to become inaccessible
+        age.readOnly = true;
+        chol.readOnly = true;
+        dbp.readOnly = true;
+        dsp.readOnly = true;
+        gender.readOnly = true;
+        medication.readOnly = true;
+        smoker.readOnly = true;
+        hdcl.readOnly = true;
         var diabeticYes = document.getElementById('patientDiabeticYes').readOnly = true;
         var diabeticNo = document.getElementById('patientDiabeticNo').readOnly = true;
-        var hdlc = document.getElementById('patienthdlc').readOnly = true;
+
 
         console.log(document.getElementById('patientMedication').value);
         $scope.specPatientInfo.medication = document.getElementById('patientMedication').value; //not needed
